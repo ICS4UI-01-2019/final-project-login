@@ -178,14 +178,14 @@ public class Window extends javax.swing.JFrame {
                             Imgcodecs.imencode(".bmp", frame, mem);
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
 
-//                            if(frameNum == 6){
-//                                frameNum = 0;
-//                                loops++;
-//                                Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
-//                                System.out.println("Frame_" + loops + " SAVED!");
-//                            }
+                            if(frameNum == 6){
+                                frameNum = 0;
+                                loops++;
+                                Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+                                System.out.println("Frame_" + loops + " SAVED!");
+                            }
                             BufferedImage buff = (BufferedImage) im;
-                            buff = proc.ProcessImage(buff);
+//                            buff = proc.ProcessImage(buff);
                             Graphics g = video.getGraphics();
 
                             if (g.drawImage(buff, 0, 0, getWidth(), getHeight() - 150, 0, 0, buff.getWidth(), buff.getHeight(), null)) {
@@ -196,7 +196,7 @@ public class Window extends javax.swing.JFrame {
                             }
                             frameNum++;
                         } catch (Exception ex) {
-                            System.out.println("Error");
+                            ex.printStackTrace();
                         }
                     }
                 }

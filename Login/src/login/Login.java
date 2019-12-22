@@ -8,7 +8,12 @@ package login;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 import javax.imageio.ImageIO;
+import org.opencv.imgcodecs.Imgcodecs;
 
 /**
  *
@@ -21,7 +26,14 @@ public class Login {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        for (int i = 0; i < 21; i++) {
+        
+        long count;
+        
+        try (Stream<Path> files = Files.list(Paths.get("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password"))) {
+            count = files.count();
+        }
+        
+        for (int i = 0; i < count; i++) {
             int photoNum = i + 1;
 
             BufferedImage img = null;
