@@ -20,20 +20,26 @@ import org.opencv.videoio.VideoCapture;
  *
  * @author Purew
  */
-public class Window extends javax.swing.JFrame {
+public class Gesture extends javax.swing.JFrame {
 
+    //create a thread to run in the background
+    //Daemon Thread was used so this process ran in the background 
     private DaemonThread myThread = null;
-    int frameNum = 0;
-    int loops = 0;
-    VideoCapture webSource = null;
-    ProcessImage proc = new ProcessImage();
-    Mat frame = new Mat();
-    MatOfByte mem = new MatOfByte();
+    //variable to keep track of the number of frames
+    private int frameNum = 0;
+    //variable to keep track of the number of times six frames have been taken
+    private int loops = 0;
+    //the video capture device (not intitalized yet)
+    private VideoCapture webSource = null;
+    //variable to hold each frame (opencv uses something called a 'mat')
+    private Mat frame = new Mat();
+    //the memory (data) of each frame
+    private MatOfByte mem = new MatOfByte();
 
     /**
      * Creates new form Window
      */
-    public Window() {
+    public Gesture() {
         initComponents();
     }
 
@@ -111,28 +117,37 @@ public class Window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
-        webSource = new VideoCapture(0);
-        myThread = new DaemonThread();
+        //initialize the camera to the computer's defaut device
+        this.webSource = new VideoCapture(0);
+        //intitalize the daemon thread and cast it to a thread
+        this.myThread = new DaemonThread();
         Thread t = new Thread(myThread);
+        //start the thread
         t.setDaemon(true);
-        myThread.runnable = true;
+        this.myThread.runnable = true;
         t.start();
-        Start.setEnabled(false);  //start button
-        Stop.setEnabled(true);  // stop button
+        //disable the start button (to avoid errors)
+        //enable the stop button
+        this.Start.setEnabled(false);
+        this.Stop.setEnabled(true);
     }//GEN-LAST:event_StartActionPerformed
 
     private void StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopActionPerformed
-        myThread.runnable = false;
-        Stop.setEnabled(false);
-        Start.setEnabled(true);
-
-        webSource.release();
+        //stop the thread
+        this.myThread.runnable = false;
+        //enable the start button
+        //disable the stop button (to avoid errors)
+        this.Stop.setEnabled(false);
+        this.Start.setEnabled(true);
+        //disable the video capture device
+        this.webSource.release();
     }//GEN-LAST:event_StopActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        //load in the opencv java library
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -147,53 +162,75 @@ public class Window extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Gesture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Gesture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Gesture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Gesture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Window().setVisible(true);
+                new Gesture().setVisible(true);
             }
         });
     }
 
+    /**
+     * Class controlling the gathering of the capture device's frames and
+     * processing the data into a buffered image for the frame to display. Class
+     * is located within the gesture class for easy access to video capture
+     * device, gesture window and other local variables in the gesture class
+     */
     class DaemonThread implements Runnable {
 
+        //variable for wether or not the thread is running is
+        //protected (so classes within this package can access this variable but not the world) and
+        //volitile (for easy access amoung different threads)
         protected volatile boolean runnable = false;
 
+        /**
+         * Run method to control the thread's function
+         */
         @Override
         public void run() {
+            //synchronizing thread to allow for multi-threading
             synchronized (this) {
-                while (runnable) {
+                //loop while the thread is 'active'
+                while (this.runnable) {
+                    //if the video capture device has a frame to grab
                     if (webSource.grab()) {
                         try {
+                            //send the video capture frame's data to the variable 'frame'
                             webSource.retrieve(frame);
+                            //seperate the data in 'frame' into it's bytes (into a .bmp format)
                             Imgcodecs.imencode(".bmp", frame, mem);
+                            //rearrange the bytes (data) into an image
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
-
-                            if(frameNum == 6){
-                                frameNum = 0;
-                                loops++;
-                                Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
-                                System.out.println("Frame_" + loops + " SAVED!");
-                            }
+                            //if the number of frames is six reset the count to zero and save the image to the 'Password' folder (as a .jpg)
+//                            if(frameNum == 6){
+//                                frameNum = 0;
+//                                loops++;
+//                                Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+//                                System.out.println("Frame_" + loops + " SAVED!");
+//                            }
+                            //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
-//                            buff = proc.ProcessImage(buff);
-                            Graphics g = video.getGraphics();
 
-                            if (g.drawImage(buff, 0, 0, getWidth(), getHeight() - 150, 0, 0, buff.getWidth(), buff.getHeight(), null)) {
-                                if (runnable == false) {
-                                    System.out.println("Going to wait()");
-                                    this.wait();
-                                }
+                            //get the graphics of the JLabel in the gesture window
+                            Graphics g = video.getGraphics();
+                            //draw the buffered image to the JLabel (video)
+                            g.drawImage(buff, 0, 0, getWidth(), getHeight() - 150, 0, 0, buff.getWidth(), buff.getHeight(), null);
+                            //if runnable is false then pause the thread and let the user know ("video paused")
+                            if (this.runnable == false) {
+                                System.out.println("Video Paused!");
+                                this.wait();
                             }
+
+                            //increase the number of frames
                             frameNum++;
                         } catch (Exception ex) {
                             ex.printStackTrace();
