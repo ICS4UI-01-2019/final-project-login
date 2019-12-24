@@ -63,6 +63,8 @@ public class Gesture extends javax.swing.JFrame {
         video = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gesture");
+        setResizable(false);
 
         Start.setBackground(new java.awt.Color(0, 204, 0));
         Start.setText("Start");
