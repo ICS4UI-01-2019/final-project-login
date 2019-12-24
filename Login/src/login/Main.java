@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
+import org.opencv.core.Core;
 
 /**
  *
@@ -25,7 +26,10 @@ public class Main {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-
+        //load in the opencv java library
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        //open gesture window (with the gesture input mode)
+        new Gesture(true).setVisible(true);
     }
 
 }

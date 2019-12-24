@@ -35,11 +35,17 @@ public class Gesture extends javax.swing.JFrame {
     private Mat frame = new Mat();
     //the memory (data) of each frame
     private MatOfByte mem = new MatOfByte();
+    //whether or not the window will be used to setup a gesture or input one
+    private boolean mode;
 
     /**
      * Creates new form Window
+     *
+     * @param mode mode setting (true is inputting a gesture and false
+     * is setting up a gesture)
      */
-    public Gesture() {
+    public Gesture(boolean mode) {
+        this.mode = mode;
         initComponents();
     }
 
@@ -174,7 +180,7 @@ public class Gesture extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Gesture().setVisible(true);
+                new Gesture(true).setVisible(true);
             }
         });
     }
@@ -211,12 +217,16 @@ public class Gesture extends javax.swing.JFrame {
                             //rearrange the bytes (data) into an image
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
                             //if the number of frames is six reset the count to zero and save the image to the 'Password' folder (as a .jpg)
-//                            if(frameNum == 6){
-//                                frameNum = 0;
-//                                loops++;
-//                                Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
-//                                System.out.println("Frame_" + loops + " SAVED!");
-//                            }
+                            if (frameNum == 6) {
+                                frameNum = 0;
+                                loops++;
+                                if(mode){
+                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
+                                }else{
+                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+                                }
+                                System.out.println("Frame_" + loops + " SAVED!");
+                            }
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
 
