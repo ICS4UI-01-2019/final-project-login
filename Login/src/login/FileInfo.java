@@ -5,6 +5,7 @@
  */
 package login;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,15 +13,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Purew
  */
 public class FileInfo {
-    
+
     /**
      * Reads in all of the data of a gesture file(and formats it)
+     *
      * @param path the path of to the gesture data file
      * @return an array of KeyFrames with individual data
      * @throws IOException (File Exception)
@@ -36,71 +43,75 @@ public class FileInfo {
 
         //create the array of keyframes
         KeyFrame[] keys = new KeyFrame[((int) lines / 5)];
-        
+
         //initialize the first keyframe in keys
         keys[0] = new KeyFrame();
         //re-initialize the buffered reader after it has read the amount of lines in the file
         buffRead = new BufferedReader(read);
         //loop through the file and get all of the file's data
         for (int i = 1; i < lines + 1; i++) {
-            
+
             //read in a line
             String line = buffRead.readLine();
             
             //depending on the line read, set a colours average x and y point
-            switch (i%5) {
+            switch (i % 5) {
                 case 1:
-                    keys[(i / 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i / 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i/5) - 1].setBlue(true);
+                    keys[(i % 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i % 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i % 5) - 1].setBlue(true);
+                    System.out.println("i");
                     break;
                 case 2:
-                    keys[(i / 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i / 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i/5) - 1].setRed(true);
+                    keys[(i % 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i % 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i % 5) - 1].setRed(true);
                     break;
                 case 3:
-                    keys[(i / 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i / 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i/5) - 1].setGreen(true);
+                    keys[(i % 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i % 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i % 5) - 1].setGreen(true);
                     break;
                 case 4:
-                    keys[(i / 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i / 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i/5) - 1].setYellow(true);
+                    keys[(i % 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i % 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i % 5) - 1].setYellow(true);
                     break;
                 case 0:
-                    keys[(i / 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i / 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i/5) - 1].setOrange(true);
+                    keys[(i % 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i % 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i % 5) - 1].setOrange(true);
+                    break;
+                default:
                     break;
             }
-            
+
             //check if a new keyframe needs to be made
-            if (i % 5 == 0) {
-                keys[(i / 5)] = new KeyFrame();
+            if (i % 5 == 0 && i <= lines) {
+                keys[(i % 5)] = new KeyFrame();
             }
 
         }
 
         return keys;
     }
-    
+
     /**
      * Update a gesture's data file using an array of images
+     *
      * @param path to the file being updated
      * @param buffImg the array of images used to update the file
      * @throws IOException (file/image exception)
      */
-    public void updateFile(String path, BufferedImage[] buffImg) throws IOException{
+    public void updateFile(String path, BufferedImage[] buffImg) throws IOException {
         //get the text file and initialize the file writers
         File file = new File(path);
         FileWriter write = new FileWriter(file, false);
         BufferedWriter buffWrite = new BufferedWriter(write);
-        
+
         //string to hold the 'data' of the keyframes
         String data = "";
-        
+
         //get the process image class in order to get each keyframe's average points
         ProcessImage procImg = new ProcessImage();
         
@@ -108,8 +119,32 @@ public class FileInfo {
         for (int i = 0; i < buffImg.length; i++) {
             data += procImg.averagePoints(buffImg[i]);
         }
-        
+
         //update the file with the new data
         buffWrite.write(data);
+        buffWrite.flush();
+    }
+
+    public BufferedImage[] buffLoad(String path) throws IOException {
+        long count = 0;
+        try (Stream<Path> files = Files.list(Paths.get(path))) {
+            count = files.count();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        System.out.println(count);
+        
+        BufferedImage[] buff = new BufferedImage[(int) count - 1];
+
+        for (int i = 1; i < count; i++) {
+
+            String imagePath = path + "\\KeyFrame_" + i + ".jpg";
+
+            Image img = ImageIO.read(new File(imagePath));
+            buff[i-1] = (BufferedImage) img;
+        }
+
+        return buff;
     }
 }

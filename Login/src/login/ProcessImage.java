@@ -14,57 +14,59 @@ import java.io.IOException;
  * @author Purew
  */
 public class ProcessImage {
+
     /**
      * Gathers the average points of each finger (colour)
+     *
      * @param img the image being processed
      * @return a string formatted with the average points
      * @throws java.io.IOException (Image exception)
      */
-    public String averagePoints(BufferedImage img) throws IOException{
+    public String averagePoints(BufferedImage img) throws IOException {
         //blacken the image (remove unessisary colours)
         img = this.BlackImg(img);
         //get the amount of rows and coloums for the image
         int row = img.getHeight();
         int col = img.getWidth();
-        
+
         //the string to hold the average points of each image
         String avPoints;
-        
+
         //Total x and y positions of each colour
-        int redX = 0;
-        int redY = 0;
-        int redCount = 0;
-        
-        int orangeX = 0;
-        int orangeY = 0;
-        int orangeCount = 0;
-        
-        int yellowX = 0;
-        int yellowY = 0;
-        int yellowCount = 0;
-        
-        int greenX = 0;
-        int greenY = 0;
-        int greenCount = 0;
-        
-        int blueX = 0;
-        int blueY = 0;
-        int blueCount = 0;
+        double redX = 0;
+        double redY = 0;
+        double redCount = 0;
+
+        double orangeX = 0;
+        double orangeY = 0;
+        double orangeCount = 0;
+
+        double yellowX = 0;
+        double yellowY = 0;
+        double yellowCount = 0;
+
+        double greenX = 0;
+        double greenY = 0;
+        double greenCount = 0;
+
+        double blueX = 0;
+        double blueY = 0;
+        double blueCount = 0;
         
         //loop through each pixel
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 //get the colour of the pixel
                 Color colour = new Color(img.getRGB(j, i));
-                
+
                 //check if the colour of the pixel is red(ish)
-                if(colour.getRed() >= 155 && colour.getRed() <= 255 && colour.getGreen() >= 0 && colour.getGreen() <= 55 && colour.getBlue() >= 0 && colour.getBlue() <= 100){
+                if (colour.getRed() >= 155 && colour.getRed() <= 255 && colour.getGreen() >= 0 && colour.getGreen() <= 55 && colour.getBlue() >= 0 && colour.getBlue() <= 100) {
                     //if it's classified as red(ish)
                     redX += j;
                     redY += i;
                     redCount++;
                 }
-                
+
                 //check if the colour of the pixel is orange(ish)
                 if (colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80) {
                     //if it's classified as orange(ish)
@@ -72,7 +74,7 @@ public class ProcessImage {
                     orangeY += i;
                     orangeCount++;
                 }
-                
+
                 //check if the colour of the pixel is yellow(ish)
                 if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
                     //if it's classified as yellow(ish)
@@ -80,7 +82,7 @@ public class ProcessImage {
                     yellowY += i;
                     yellowCount++;
                 }
-                
+
                 //check if the colour of the pixel is green(ish)
                 if (colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120) {
                     //if it's classified as geen(ish)
@@ -88,7 +90,7 @@ public class ProcessImage {
                     greenY += i;
                     greenCount++;
                 }
-                
+
                 //check if the colour of the pixel is blue(ish)
                 if (colour.getRed() >= 0 && colour.getRed() <= 30 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145) {
                     //if it's classified as blue(ish)
@@ -96,33 +98,47 @@ public class ProcessImage {
                     blueY += i;
                     blueCount++;
                 }
-                
+
             }
+            
         }
+        
         //find the average points
-        redX /= redCount;
-        redY /= redCount;
+        if (redCount > 0) {
+            redX /= redCount;
+            redY /= redCount;
+        }
+
+        if (yellowCount > 0) {
+            yellowX /= yellowCount;
+            yellowY /= yellowCount;
+        }
         
-        yellowX /= yellowCount;
-        yellowY /= yellowCount;
+        if (orangeCount > 0) {
+            orangeX /= orangeCount;
+            orangeY /= orangeCount;
+        }
         
-        orangeX /= orangeCount;
-        orangeY /= orangeCount;
+        if (greenCount > 0) {
+            greenX /= greenCount;
+            greenY /= greenCount;
+        }
         
-        greenX /= greenCount;
-        greenY /= greenCount;
+        if (blueCount > 0) {
+            blueX /= blueCount;
+            blueY /= blueCount;
+        }
         
-        blueX /= blueCount;
-        blueY /= blueCount;
-        
+
         //format the average points
         avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + orangeX + "," + orangeY + "]\n";
 
         return avPoints;
     }
-    
+
     /**
-     * 'Blackens' the image by removing unnecessary colours 
+     * 'Blackens' the image by removing unnecessary colours
+     *
      * @param img the image being processed
      * @return the processed image
      * @throws IOException (image exception)
@@ -153,5 +169,5 @@ public class ProcessImage {
         //return the image
         return img;
     }
-    
+
 }

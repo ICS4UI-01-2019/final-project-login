@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -37,18 +38,35 @@ public class Gesture extends javax.swing.JFrame {
     private MatOfByte mem = new MatOfByte();
     //whether or not the window will be used to setup a gesture or input one
     private boolean mode;
-    
-    ProcessImage proc = new ProcessImage();
+    //number of files in the password folder (minus config file)
+    long fileCount = new File("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password").list().length - 1;
+    //instance of file info
+    FileInfo fInfo = new FileInfo();
 
     /**
      * Creates new form Window
      *
-     * @param mode mode setting (true is inputting a gesture and false
-     * is setting up a gesture)
+     * @param mode mode setting (true is inputting a gesture and false is
+     * setting up a gesture)
      */
     public Gesture(boolean mode) {
         this.mode = mode;
         initComponents();
+
+        if (this.mode) {
+            //initialize the camera to the computer's defaut device
+            this.webSource = new VideoCapture(0);
+            //intitalize the daemon thread and cast it to a thread
+            this.myThread = new DaemonThread();
+            Thread t = new Thread(myThread);
+            //start the thread
+            t.setDaemon(true);
+            this.myThread.runnable = true;
+            t.start();
+            //disable the buttons
+            Stop.setEnabled(false);
+            Start.setEnabled(false);
+        }
     }
 
     /**
@@ -221,21 +239,19 @@ public class Gesture extends javax.swing.JFrame {
                             //rearrange the bytes (data) into an image
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
                             //if the number of frames is six reset the count to zero and save the image to the 'Password' folder (as a .jpg)
-//                            if (frameNum == 6) {
-//                                frameNum = 0;
-//                                loops++;
-//                                if(mode){
-//                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
-//                                }else{
-//                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
-//                                }
-//                                System.out.println("Frame_" + loops + " SAVED!");
-//                            }
+                            if (frameNum == 6) {
+                                frameNum = 0;
+                                loops++;
+                                if (mode) {
+                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
+                                } else {
+                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+                                }
+                                System.out.println("Frame_" + loops + " SAVED!");
+                            }
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
-                            
-                            buff = proc.BlackImg(buff);
-                            
+
                             //get the graphics of the JLabel in the gesture window
                             Graphics g = video.getGraphics();
                             //draw the buffered image to the JLabel (video)
@@ -248,6 +264,27 @@ public class Gesture extends javax.swing.JFrame {
 
                             //increase the number of frames
                             frameNum++;
+
+                            if (mode) {
+                                if (loops == fileCount) {
+                                    this.runnable = false;
+                                    BufferedImage[] guess = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess");
+                                    fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt", guess);
+                                    KeyFrame[] key1 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt");
+
+                                    BufferedImage[] pass = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password");
+                                    fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\Config.txt", pass);
+                                    KeyFrame[] key2 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\Config.txt");
+
+                                    Main m = new Main();
+                                    if (m.compareKeys(key1, key2)) {
+                                        System.out.println("Match");
+                                        
+                                    }else{
+                                        System.out.println("No Match");
+                                    }
+                                }
+                            }
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
