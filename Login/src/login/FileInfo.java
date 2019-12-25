@@ -39,27 +39,41 @@ public class FileInfo {
         
         //initialize the first keyframe in keys
         keys[0] = new KeyFrame();
-
+        //re-initialize the buffered reader after it has read the amount of lines in the file
+        buffRead = new BufferedReader(read);
         //loop through the file and get all of the file's data
         for (int i = 1; i < lines + 1; i++) {
-            //re-initialize the buffered reader after it has read the amount of lines in the file
-            buffRead = new BufferedReader(read);
+            
             //read in a line
             String line = buffRead.readLine();
-
-            if ((i%5) == 1) {
-
-            } else if ((i%5) == 2) {
-                keys[(i / 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i / 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-            } else if ((i%5) == 3) {
-
-            } else if ((i%5) == 4) {
-                keys[(i / 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i / 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-            } else if ((i%5) == 0) {
-                keys[(i / 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i / 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+            
+            //depending on the line read, set a colours average x and y point
+            switch (i%5) {
+                case 1:
+                    keys[(i / 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i / 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i/5) - 1].setBlue(true);
+                    break;
+                case 2:
+                    keys[(i / 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i / 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i/5) - 1].setRed(true);
+                    break;
+                case 3:
+                    keys[(i / 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i / 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i/5) - 1].setGreen(true);
+                    break;
+                case 4:
+                    keys[(i / 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i / 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i/5) - 1].setYellow(true);
+                    break;
+                case 0:
+                    keys[(i / 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                    keys[(i / 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                    keys[(i/5) - 1].setOrange(true);
+                    break;
             }
             
             //check if a new keyframe needs to be made
