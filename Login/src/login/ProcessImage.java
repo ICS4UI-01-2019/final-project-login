@@ -33,25 +33,25 @@ public class ProcessImage {
         String avPoints;
 
         //Total x and y positions of each colour
-        double redX = 0;
-        double redY = 0;
-        double redCount = 0;
+        int redX = 0;
+        int redY = 0;
+        int redCount = 0;
 
-        double orangeX = 0;
-        double orangeY = 0;
-        double orangeCount = 0;
+        int orangeX = 0;
+        int orangeY = 0;
+        int orangeCount = 0;
 
-        double yellowX = 0;
-        double yellowY = 0;
-        double yellowCount = 0;
+        int yellowX = 0;
+        int yellowY = 0;
+        int yellowCount = 0;
 
-        double greenX = 0;
-        double greenY = 0;
-        double greenCount = 0;
+        int greenX = 0;
+        int greenY = 0;
+        int greenCount = 0;
 
-        double blueX = 0;
-        double blueY = 0;
-        double blueCount = 0;
+        int blueX = 0;
+        int blueY = 0;
+        int blueCount = 0;
         
         //loop through each pixel
         for (int i = 0; i < row; i++) {
@@ -129,6 +129,8 @@ public class ProcessImage {
             blueY /= blueCount;
         }
         
+        
+        System.out.println(redX);
 
         //format the average points
         avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + orangeX + "," + orangeY + "]\n";

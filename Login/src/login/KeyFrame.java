@@ -11,16 +11,16 @@ package login;
  */
 public class KeyFrame {
     //variables of the keyframe (average positions of each colour)
-    private int redX;
-    private int redY;
-    private int greenX;
-    private int greenY;
-    private int orangeX;
-    private int orangeY;
-    private int yellowX;
-    private int yellowY;
-    private int blueX;
-    private int blueY;
+    private int redX = 0;
+    private int redY = 0;
+    private int greenX = 0;
+    private int greenY = 0;
+    private int orangeX = 0;
+    private int orangeY = 0;
+    private int yellowX = 0;
+    private int yellowY = 0;
+    private int blueX = 0;
+    private int blueY = 0;
     
     //number of colours visible in the frame
     private int numfOfCol;

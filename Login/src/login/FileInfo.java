@@ -43,43 +43,49 @@ public class FileInfo {
 
         //create the array of keyframes
         KeyFrame[] keys = new KeyFrame[((int) lines / 5)];
-
+        
+        System.out.println(keys.length);
+        
         //initialize the first keyframe in keys
         keys[0] = new KeyFrame();
-        //re-initialize the buffered reader after it has read the amount of lines in the file
+        //re-initialize the readers (and file) after it has read the amount of lines in the file
+        file = new File(path);
+        read = new FileReader(file);
         buffRead = new BufferedReader(read);
         //loop through the file and get all of the file's data
-        for (int i = 1; i < (lines + 1); i++) {
+        for (int i = 1; i < (lines); i++) {
+
+            //current keyframe index
+            int index = (int) (i / 5);
 
             //read in a line
             String line = buffRead.readLine();
-
             //depending on the line read, set a colours average x and y point
-            if (i % 5 == 1) {
-                keys[(i % 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i % 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                keys[(i % 5) - 1].setBlue(true);
+            if ((i % 5) == 1) {
+                keys[index].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index].setBlue(true);
             } else if (i % 5 == 2) {
-                keys[(i % 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i % 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                keys[(i % 5) - 1].setRed(true);
+                keys[index].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index].setRed(true);
             } else if (i % 5 == 3) {
-                keys[(i % 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i % 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                keys[(i % 5) - 1].setGreen(true);
+                keys[index].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index].setGreen(true);
             } else if (i % 5 == 4) {
-                keys[(i % 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i % 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                keys[(i % 5) - 1].setYellow(true);
-            } else if (i % 5 == 0) {
-                keys[(i % 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[(i % 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                keys[(i % 5) - 1].setOrange(true);
+                keys[index].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index].setYellow(true);
+            } else {
+                keys[index - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index - 1].setOrange(true);
             }
 
             //check if a new keyframe needs to be made
-            if (i % 5 == 0 && i <= lines) {
-                keys[(i % 5)] = new KeyFrame();
+            if (i % 5 == 0 && i < lines) {
+                keys[index] = new KeyFrame();
             }
 
         }

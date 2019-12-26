@@ -202,7 +202,7 @@ public class Gesture extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Gesture(true).setVisible(true);
+                new Gesture(false).setVisible(true);
             }
         });
     }
@@ -269,8 +269,8 @@ public class Gesture extends javax.swing.JFrame {
                                 if (loops == fileCount) {
                                     this.runnable = false;
                                     BufferedImage[] guess = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess");
+                                    System.out.println("r");
                                     fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt", guess);
-                                    System.out.println("cool");
                                     KeyFrame[] key1 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt");
 
                                     BufferedImage[] pass = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password");
@@ -283,6 +283,7 @@ public class Gesture extends javax.swing.JFrame {
                                         new Menu().setVisible(true);
                                     }else{
                                         System.out.println("No Match");
+                                        System.exit(0);
                                     }
                                 }
                             }
