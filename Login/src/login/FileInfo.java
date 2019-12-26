@@ -49,41 +49,32 @@ public class FileInfo {
         //re-initialize the buffered reader after it has read the amount of lines in the file
         buffRead = new BufferedReader(read);
         //loop through the file and get all of the file's data
-        for (int i = 1; i < lines + 1; i++) {
+        for (int i = 1; i < (lines + 1); i++) {
 
             //read in a line
             String line = buffRead.readLine();
-            
+
             //depending on the line read, set a colours average x and y point
-            switch (i % 5) {
-                case 1:
-                    keys[(i % 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i % 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i % 5) - 1].setBlue(true);
-                    System.out.println("i");
-                    break;
-                case 2:
-                    keys[(i % 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i % 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i % 5) - 1].setRed(true);
-                    break;
-                case 3:
-                    keys[(i % 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i % 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i % 5) - 1].setGreen(true);
-                    break;
-                case 4:
-                    keys[(i % 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i % 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i % 5) - 1].setYellow(true);
-                    break;
-                case 0:
-                    keys[(i % 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                    keys[(i % 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
-                    keys[(i % 5) - 1].setOrange(true);
-                    break;
-                default:
-                    break;
+            if (i % 5 == 1) {
+                keys[(i % 5) - 1].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[(i % 5) - 1].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                keys[(i % 5) - 1].setBlue(true);
+            } else if (i % 5 == 2) {
+                keys[(i % 5) - 1].setRedX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[(i % 5) - 1].setRedY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                keys[(i % 5) - 1].setRed(true);
+            } else if (i % 5 == 3) {
+                keys[(i % 5) - 1].setGreenX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[(i % 5) - 1].setGreenY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                keys[(i % 5) - 1].setGreen(true);
+            } else if (i % 5 == 4) {
+                keys[(i % 5) - 1].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[(i % 5) - 1].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                keys[(i % 5) - 1].setYellow(true);
+            } else if (i % 5 == 0) {
+                keys[(i % 5) - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[(i % 5) - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length())));
+                keys[(i % 5) - 1].setOrange(true);
             }
 
             //check if a new keyframe needs to be made
@@ -114,7 +105,7 @@ public class FileInfo {
 
         //get the process image class in order to get each keyframe's average points
         ProcessImage procImg = new ProcessImage();
-        
+
         //loop through the images and get the average point data (and store the data to the string 'data')
         for (int i = 0; i < buffImg.length; i++) {
             data += procImg.averagePoints(buffImg[i]);
@@ -129,12 +120,12 @@ public class FileInfo {
         long count = 0;
         try (Stream<Path> files = Files.list(Paths.get(path))) {
             count = files.count();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         System.out.println(count);
-        
+
         BufferedImage[] buff = new BufferedImage[(int) count - 1];
 
         for (int i = 1; i < count; i++) {
@@ -142,7 +133,7 @@ public class FileInfo {
             String imagePath = path + "\\KeyFrame_" + i + ".jpg";
 
             Image img = ImageIO.read(new File(imagePath));
-            buff[i-1] = (BufferedImage) img;
+            buff[i - 1] = (BufferedImage) img;
         }
 
         return buff;

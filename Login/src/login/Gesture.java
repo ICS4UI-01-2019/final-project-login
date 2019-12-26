@@ -270,6 +270,7 @@ public class Gesture extends javax.swing.JFrame {
                                     this.runnable = false;
                                     BufferedImage[] guess = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess");
                                     fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt", guess);
+                                    System.out.println("cool");
                                     KeyFrame[] key1 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt");
 
                                     BufferedImage[] pass = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password");
@@ -279,7 +280,7 @@ public class Gesture extends javax.swing.JFrame {
                                     Main m = new Main();
                                     if (m.compareKeys(key1, key2)) {
                                         System.out.println("Match");
-                                        
+                                        new Menu().setVisible(true);
                                     }else{
                                         System.out.println("No Match");
                                     }
