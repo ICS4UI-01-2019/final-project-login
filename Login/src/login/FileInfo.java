@@ -40,11 +40,9 @@ public class FileInfo {
 
         //number of lines in the file
         long lines = buffRead.lines().count();
-
-        //create the array of keyframes
-        KeyFrame[] keys = new KeyFrame[((int) lines / 5)];
         
-        System.out.println(keys.length);
+        //create the array of keyframes
+        KeyFrame[] keys = new KeyFrame[((int) (lines) / 5)];
         
         //initialize the first keyframe in keys
         keys[0] = new KeyFrame();
@@ -57,6 +55,8 @@ public class FileInfo {
 
             //current keyframe index
             int index = (int) (i / 5);
+            
+            System.out.println(index);
 
             //read in a line
             String line = buffRead.readLine();
@@ -77,14 +77,14 @@ public class FileInfo {
                 keys[index].setYellowX(Integer.parseInt(line.substring(1, line.indexOf(","))));
                 keys[index].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
                 keys[index].setYellow(true);
-            } else {
+            } else if (i % 5 == 0) {
                 keys[index - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
                 keys[index - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
                 keys[index - 1].setOrange(true);
             }
 
             //check if a new keyframe needs to be made
-            if (i % 5 == 0 && i < lines) {
+            if (i % 5 == 0 && i < lines - 1) {
                 keys[index] = new KeyFrame();
             }
 
@@ -129,8 +129,6 @@ public class FileInfo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(count);
 
         BufferedImage[] buff = new BufferedImage[(int) count - 1];
 

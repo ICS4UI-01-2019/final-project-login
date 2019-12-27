@@ -10,6 +10,10 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -39,7 +43,7 @@ public class Gesture extends javax.swing.JFrame {
     //whether or not the window will be used to setup a gesture or input one
     private boolean mode;
     //number of files in the password folder (minus config file)
-    long fileCount = new File("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password").list().length - 1;
+    long fileCount;
     //instance of file info
     FileInfo fInfo = new FileInfo();
 
@@ -66,6 +70,13 @@ public class Gesture extends javax.swing.JFrame {
             //disable the buttons
             Stop.setEnabled(false);
             Start.setEnabled(false);
+        }
+        
+        //get the number of keyframes in the password folder
+        try (Stream<Path> files = Files.list(Paths.get("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password"))) {
+            fileCount = files.count() - 1;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -269,8 +280,8 @@ public class Gesture extends javax.swing.JFrame {
                                 if (loops == fileCount) {
                                     this.runnable = false;
                                     BufferedImage[] guess = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess");
-                                    System.out.println("r");
                                     fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt", guess);
+                                    System.out.println("test");
                                     KeyFrame[] key1 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt");
 
                                     BufferedImage[] pass = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password");
@@ -281,8 +292,7 @@ public class Gesture extends javax.swing.JFrame {
                                     if (m.compareKeys(key1, key2)) {
                                         System.out.println("Match");
                                         new Menu().setVisible(true);
-                                    }else{
-                                        System.out.println("No Match");
+                                    } else {
                                         System.exit(0);
                                     }
                                 }

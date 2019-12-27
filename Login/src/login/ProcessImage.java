@@ -52,7 +52,7 @@ public class ProcessImage {
         int blueX = 0;
         int blueY = 0;
         int blueCount = 0;
-        
+
         //loop through each pixel
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -97,12 +97,13 @@ public class ProcessImage {
                     blueX += j;
                     blueY += i;
                     blueCount++;
+                    System.out.println(j + "," + i);
                 }
-
+                
             }
-            
+
         }
-        
+
         //find the average points
         if (redCount > 0) {
             redX /= redCount;
@@ -113,23 +114,22 @@ public class ProcessImage {
             yellowX /= yellowCount;
             yellowY /= yellowCount;
         }
-        
+
         if (orangeCount > 0) {
             orangeX /= orangeCount;
             orangeY /= orangeCount;
         }
-        
+
         if (greenCount > 0) {
             greenX /= greenCount;
             greenY /= greenCount;
         }
-        
+
         if (blueCount > 0) {
             blueX /= blueCount;
             blueY /= blueCount;
         }
-        
-        
+
         System.out.println(redX);
 
         //format the average points
