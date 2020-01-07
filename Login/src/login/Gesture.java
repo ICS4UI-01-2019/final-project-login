@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,7 +72,7 @@ public class Gesture extends javax.swing.JFrame {
         }
         
         //get the number of keyframes in the password folder
-        try (Stream<Path> files = Files.list(Paths.get("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password"))) {
+        try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
             fileCount = files.count() - 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -254,9 +253,9 @@ public class Gesture extends javax.swing.JFrame {
                                 frameNum = 0;
                                 loops++;
                                 if (mode) {
-                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
+                                    Imgcodecs.imwrite("LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
                                 } else {
-                                    Imgcodecs.imwrite("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+                                    Imgcodecs.imwrite("LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
                                 }
                                 System.out.println("Frame_" + loops + " SAVED!");
                             }
@@ -279,14 +278,13 @@ public class Gesture extends javax.swing.JFrame {
                             if (mode) {
                                 if (loops == fileCount) {
                                     this.runnable = false;
-                                    BufferedImage[] guess = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess");
-                                    fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt", guess);
-                                    System.out.println("test");
-                                    KeyFrame[] key1 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Guess\\Config.txt");
+                                    BufferedImage[] guess = fInfo.buffLoad("LOCKED\\Guess");
+                                    fInfo.updateFile("LOCKED\\Guess\\Config.txt", guess);
+                                    KeyFrame[] key1 = fInfo.readFile("LOCKED\\Guess\\Config.txt");
 
-                                    BufferedImage[] pass = fInfo.buffLoad("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password");
-                                    fInfo.updateFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\Config.txt", pass);
-                                    KeyFrame[] key2 = fInfo.readFile("C:\\Users\\Purew\\OneDrive\\Documents\\NetBeansProjects\\4u-individual-assignments\\final-project-login\\Login\\LOCKED\\Password\\Config.txt");
+                                    BufferedImage[] pass = fInfo.buffLoad("LOCKED\\Password");
+                                    fInfo.updateFile("LOCKED\\Password\\Config.txt", pass);
+                                    KeyFrame[] key2 = fInfo.readFile("LOCKED\\Password\\Config.txt");
 
                                     Main m = new Main();
                                     if (m.compareKeys(key1, key2)) {
