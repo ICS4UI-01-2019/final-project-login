@@ -264,6 +264,8 @@ public class Gesture extends javax.swing.JFrame {
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
                             
+                            
+                            buff = proc.BlackImg(buff);
                             //get the graphics of the JLabel in the gesture window
                             Graphics g = video.getGraphics();
                             //draw the buffered image to the JLabel (video)
@@ -276,23 +278,29 @@ public class Gesture extends javax.swing.JFrame {
 
                             //increase the number of frames
                             frameNum++;
-
+                            //if the mode is set to inputting a gesture
                             if (mode) {
+                                //if the length of the inputed gesture is the same as the password gesture
                                 if (loops == fileCount) {
+                                    //stop the camera
                                     this.runnable = false;
+                                    //get the guess information and format to an array of keyframes
                                     BufferedImage[] guess = fInfo.buffLoad("LOCKED\\Guess");
                                     fInfo.updateFile("LOCKED\\Guess\\Config.txt", guess);
                                     KeyFrame[] key1 = fInfo.readFile("LOCKED\\Guess\\Config.txt");
-
+                                    //get the password information and format to an array of keyframes
                                     BufferedImage[] pass = fInfo.buffLoad("LOCKED\\Password");
                                     fInfo.updateFile("LOCKED\\Password\\Config.txt", pass);
                                     KeyFrame[] key2 = fInfo.readFile("LOCKED\\Password\\Config.txt");
-
+                                    //use the compareKeys() method in an instance of the main method to find out if the two gestures are the same
                                     Main m = new Main();
                                     if (m.compareKeys(key1, key2)) {
+                                        //if their the same open the menu and let the user know that the gestures were a match
                                         System.out.println("Match");
                                         new Menu().setVisible(true);
                                     } else {
+                                        //otherwise close the windows and tell user the gestures weren't a match
+                                        System.out.println("No Match");
                                         System.exit(0);
                                     }
                                 }
