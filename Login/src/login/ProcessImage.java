@@ -6,8 +6,13 @@
 package login;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -177,10 +182,14 @@ public class ProcessImage {
      * @param img the selected img to process
      * @return the processed image
      */
-    public BufferedImage cryptImg(BufferedImage img) {
+    public String getImgValues(BufferedImage img) {
         //get the amount of rows and coloums for the image
         int row = img.getHeight();
         int col = img.getWidth();
+        
+        //the image values
+        String txt = "";
+        
         //loop through each pixel
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -189,18 +198,30 @@ public class ProcessImage {
                 int blue = new Color(img.getRGB(j, i)).getBlue();
                 int green = new Color(img.getRGB(j, i)).getGreen();
                 
-                //choose a random integer
-                int randomInt = (int)(28.0 * Math.random());
-
-                //randomize the colours
-                Color switched = new Color(randomInt * 3, randomInt * 6, randomInt * 9);
-
-                //update the colour of the pixels to the switched colour
-                img.setRGB(j, i, switched.getRGB());
+                txt += "[" + red + "," + green + "," + blue + "]";
             }
         }
         //return the image
-        return img;
+        return txt;
     }
+    
+    public BufferedImage rebuildImg(String path) throws IOException{
+        
+        File file = new File(path);
+        FileReader fR = new FileReader(file);
+        BufferedReader bR = new BufferedReader(fR);
+        BufferedImage img = new BufferedImage(600, 480, BufferedImage.TYPE_INT_RGB);
+        
+        for (int i = 0; i < bR.lines().count(); i++) {
+            bR = new BufferedReader(fR);
+            bR.close();
+        }
+        
+        for (int i = 0; i < img.getHeight(); i++) {
+            for (int j = 0; j < img.getWidth(); j++) {
+//                img.setRGB(j, i, new Color());
+            }
+        }
+//    }
 
 }

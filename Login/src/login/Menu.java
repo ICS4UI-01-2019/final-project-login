@@ -174,15 +174,15 @@ public class Menu extends javax.swing.JFrame {
 
         //get the number of keyframes in the password folder
         try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
-            fileCount = files.count() - 1;
+            fileCount = files.count() - 2;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         //array of the images
         BufferedImage[] imgArray = new BufferedImage[(int) fileCount];
         //loop through and get each image
-        for (int i = 0; i < fileCount; i++) {
+        for (int i = 0; i < imgArray.length; i++) {
 
             String imagePath = "LOCKED\\Password\\KeyFrame_" + (i+1) + ".jpg";
 
@@ -198,9 +198,7 @@ public class Menu extends javax.swing.JFrame {
 
         //loop through each file
         for (int i = 0; i < fileCount; i++) {
-            imgArray[i] = proc.cryptImg(imgArray[i]);
-            System.out.println(imgArray[i].getHeight());
-            System.out.println(imgArray[i].getWidth());
+//            imgArray[i] = proc.cryptImg(imgArray[i]);
             Mat m = new Mat(imgArray[i].getHeight(), imgArray[i].getWidth(), CvType.CV_8UC3);
             byte[] pixels = ((DataBufferByte) imgArray[i].getRaster().getDataBuffer()).getData();
             m.put(0, 0, pixels);
