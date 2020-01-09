@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.awt.image.Raster;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -164,7 +165,7 @@ public class ProcessImage {
 //                    if (!(colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80)) {
 //                        if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
 //                            if (!(colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120)) {
-                if (!(colour.getRed() >= 0 && colour.getRed() <= 30 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145)) {
+                if (!(colour.getRed() >= 185 && colour.getRed() <= 235 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145)) {
                     img.setRGB(j, i, Color.black.getRGB());
                 }
 //                            }
@@ -191,6 +192,7 @@ public class ProcessImage {
         String txt = "";
         
         //loop through each pixel
+//        Raster image = 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 //get the R G B values of the pixel

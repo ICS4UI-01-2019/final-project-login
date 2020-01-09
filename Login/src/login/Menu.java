@@ -168,7 +168,7 @@ public class Menu extends javax.swing.JFrame {
     private void lock(){
         //instance of processImage for the crypt method
         ProcessImage proc = new ProcessImage();
-
+        
         //number of files
         long fileCount = 0;
 
@@ -187,6 +187,7 @@ public class Menu extends javax.swing.JFrame {
             String imagePath = "LOCKED\\Password\\KeyFrame_" + (i+1) + ".jpg";
 
             Image img = null;
+            
 
             try {
                 img = ImageIO.read(new File(imagePath));
