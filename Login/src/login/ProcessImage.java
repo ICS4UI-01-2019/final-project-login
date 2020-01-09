@@ -99,7 +99,7 @@ public class ProcessImage {
                     blueCount++;
                     System.out.println(j + "," + i);
                 }
-                
+
             }
 
         }
@@ -155,17 +155,48 @@ public class ProcessImage {
                 //get the colour of the current pixel
                 Color colour = new Color(img.getRGB(j, i));
                 //if the pixel's colour isn't any of the nessisary colours (fingertip colours) set the pixel's colour to black
-                if (!(colour.getRed() >= 165 && colour.getRed() <= 185 && colour.getGreen() >= 55 && colour.getGreen() <= 80 && colour.getBlue() >= 55 && colour.getBlue() <= 85)) {
-                    if (!(colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80)) {
-                        if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
-                            if (!(colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120)) {
-                                if (!(colour.getRed() >= 0 && colour.getRed() <= 30 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145)) {
-                                    img.setRGB(j, i, Color.black.getRGB());
-                                }
-                            }
-                        }
-                    }
+//                if (!(colour.getRed() >= 165 && colour.getRed() <= 185 && colour.getGreen() >= 55 && colour.getGreen() <= 80 && colour.getBlue() >= 55 && colour.getBlue() <= 85)) {
+//                    if (!(colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80)) {
+//                        if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
+//                            if (!(colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120)) {
+                if (!(colour.getRed() >= 0 && colour.getRed() <= 30 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145)) {
+                    img.setRGB(j, i, Color.black.getRGB());
                 }
+//                            }
+//                        }
+//                    }
+//                }
+            }
+        }
+        //return the image
+        return img;
+    }
+    
+    /**
+     * encrypt and decrypt the given image by scrambling the RGB colours
+     * @param img the selected img to process
+     * @return the processed image
+     */
+    public BufferedImage cryptImg(BufferedImage img) {
+        //get the amount of rows and coloums for the image
+        int row = img.getHeight();
+        int col = img.getWidth();
+        //loop through each pixel
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                //get the R G B values of the pixel
+                int red = new Color(img.getRGB(j, i)).getRed();
+                int blue = new Color(img.getRGB(j, i)).getBlue();
+                int green = new Color(img.getRGB(j, i)).getGreen();
+                
+                //choose a random integer
+                int randomInt = (int)(28.0 * Math.random());
+
+                //randomize the colours
+                Color switched = new Color(randomInt * 3, randomInt * 6, randomInt * 9);
+
+                //update the colour of the pixels to the switched colour
+                img.setRGB(j, i, switched.getRGB());
             }
         }
         //return the image
