@@ -196,7 +196,6 @@ public class Menu extends javax.swing.JFrame {
             }
             imgArray[i] = (BufferedImage) img;
         }
-
         //loop through each file
         for (int i = 0; i < fileCount; i++) {
             imgArray[i] = proc.cryptImg(imgArray[i]);

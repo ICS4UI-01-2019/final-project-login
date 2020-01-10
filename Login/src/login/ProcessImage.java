@@ -7,14 +7,24 @@ package login;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Purew
  */
 public class ProcessImage {
+
+    private File imageData;
+    private FileWriter write;
+    private FileReader read;
+    private BufferedWriter bWrite;
 
     /**
      * Gathers the average points of each finger (colour)
@@ -172,9 +182,34 @@ public class ProcessImage {
         //return the image
         return img;
     }
-    
+    /*
+    protected BufferedImage backToImage(String data) {
+        
+    }
+    */
+    protected void rawData(BufferedImage img) {
+        ByteArrayOutputStream convert = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(img, "jpeg", convert);
+        } catch (Exception e) {
+        }
+        byte[] rawImage = convert.toByteArray();
+        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+        try {
+            this.write = new FileWriter(this.imageData, true);
+            this.bWrite = new BufferedWriter(write);
+        } catch (Exception e) {
+        }
+        String data = rawImage.toString();
+        try {
+            this.bWrite.write(data);
+        } catch (Exception e) {
+        }
+    }
+
     /**
      * encrypt and decrypt the given image by scrambling the RGB colours
+     *
      * @param img the selected img to process
      * @return the processed image
      */
@@ -190,9 +225,9 @@ public class ProcessImage {
                 int red = new Color(img.getRGB(j, i)).getRed();
                 int blue = new Color(img.getRGB(j, i)).getBlue();
                 int green = new Color(img.getRGB(j, i)).getGreen();
-                
+
                 //choose a random integer
-                int randomInt = (int)(28.0 * Math.random());
+                int randomInt = (int) (28.0 * Math.random());
 
                 //randomize the colours
                 Color switched = new Color(randomInt * 3, randomInt * 6, randomInt * 9);
