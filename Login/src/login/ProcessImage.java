@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -192,19 +193,19 @@ public class ProcessImage {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
             ImageIO.write(img, "jpeg", convert);
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
         byte[] rawImage = convert.toByteArray();
         this.imageData = new File("LOCKED\\Password\\rawImage.txt");
         try {
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
-        String data = rawImage.toString();
+        String data = Arrays.toString(rawImage);
         try {
             this.bWrite.write(data);
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
     }
 
