@@ -5,6 +5,13 @@
  */
 package login;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 
 /**
@@ -108,7 +115,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_OpenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
+        ProcessImage img = new ProcessImage();
+        try {
+            img.rawData((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_2.jpg")));
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     /**

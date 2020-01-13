@@ -7,9 +7,12 @@ package login;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,6 +28,7 @@ public class ProcessImage {
     private File imageData;
     private FileWriter write;
     private FileReader read;
+    private BufferedReader bRead;
     private BufferedWriter bWrite;
 
     /**
@@ -187,7 +191,7 @@ public class ProcessImage {
     protected void rawData(BufferedImage img) {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            ImageIO.write(img, "jpeg", convert);
+            ImageIO.write(img, "jpg", convert);
         } catch (IOException e) {
         }
         byte[] rawImage = convert.toByteArray();
@@ -203,6 +207,19 @@ public class ProcessImage {
         } catch (IOException e) {
         }
     }
+
+    
+//    protected BufferedImage returnImage(String path) throws FileNotFoundException, IOException {
+//        ByteArrayInputStream backToImage = new ByteArrayInputStream();
+//        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+//        this.read = new FileReader(this.imageData);
+//        this.bRead = new BufferedReader(this.read);
+//        
+//        byte[] data = new byte[1024];
+//        
+//        
+//        
+//    }
 
     
 
