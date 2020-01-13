@@ -6,14 +6,11 @@
 package login;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.awt.image.Raster;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /**
  *
