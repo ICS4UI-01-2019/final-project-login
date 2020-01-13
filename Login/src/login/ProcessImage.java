@@ -7,16 +7,24 @@ package login;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author Purew
  */
 public class ProcessImage {
+
+    private File imageData;
+    private FileWriter write;
+    private FileReader read;
+    private BufferedWriter bWrite;
 
     /**
      * Gathers the average points of each finger (colour)
@@ -175,52 +183,26 @@ public class ProcessImage {
         return img;
     }
     
-    /**
-     * encrypt and decrypt the given image by scrambling the RGB colours
-     * @param img the selected img to process
-     * @return the processed image
-     */
-    public String getImgValues(BufferedImage img) {
-        //get the amount of rows and coloums for the image
-        int row = img.getHeight();
-        int col = img.getWidth();
-        
-        //the image values
-        String txt = "";
-        
-        //loop through each pixel
-//        Raster image = 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                //get the R G B values of the pixel
-                int red = new Color(img.getRGB(j, i)).getRed();
-                int blue = new Color(img.getRGB(j, i)).getBlue();
-                int green = new Color(img.getRGB(j, i)).getGreen();
-                
-                txt += "[" + red + "," + green + "," + blue + "]";
-            }
+    protected void rawData(BufferedImage img) {
+        ByteArrayOutputStream convert = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(img, "jpeg", convert);
+        } catch (Exception e) {
         }
-        //return the image
-        return txt;
+        byte[] rawImage = convert.toByteArray();
+        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+        try {
+            this.write = new FileWriter(this.imageData, true);
+            this.bWrite = new BufferedWriter(write);
+        } catch (Exception e) {
+        }
+        String data = rawImage.toString();
+        try {
+            this.bWrite.write(data);
+        } catch (Exception e) {
+        }
     }
-    
-    public BufferedImage rebuildImg(String path) throws IOException{
-        
-        File file = new File(path);
-        FileReader fR = new FileReader(file);
-        BufferedReader bR = new BufferedReader(fR);
-        BufferedImage img = new BufferedImage(600, 480, BufferedImage.TYPE_INT_RGB);
-        
-        for (int i = 0; i < bR.lines().count(); i++) {
-            bR = new BufferedReader(fR);
-            bR.close();
-        }
-        
-        for (int i = 0; i < img.getHeight(); i++) {
-            for (int j = 0; j < img.getWidth(); j++) {
-//                img.setRGB(j, i, new Color());
-            }
-        }
-//    }
 
-//}
+    
+
+}

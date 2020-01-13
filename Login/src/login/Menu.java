@@ -5,20 +5,7 @@
  */
 package login;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-import javax.imageio.ImageIO;
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
 
 /**
  *
@@ -112,8 +99,6 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_ResetActionPerformed
 
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
-        //lock info
-        this.lock();
         //end the program
         System.exit(0);
     }//GEN-LAST:event_ExitActionPerformed
@@ -123,8 +108,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_OpenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        //lock info
-        this.lock();
+
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -165,47 +149,6 @@ public class Menu extends javax.swing.JFrame {
         });
     }
     
-    private void lock(){
-        //instance of processImage for the crypt method
-        ProcessImage proc = new ProcessImage();
-        
-        //number of files
-        long fileCount = 0;
-
-        //get the number of keyframes in the password folder
-        try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
-            fileCount = files.count() - 2;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        //array of the images
-        BufferedImage[] imgArray = new BufferedImage[(int) fileCount];
-        //loop through and get each image
-        for (int i = 0; i < imgArray.length; i++) {
-
-            String imagePath = "LOCKED\\Password\\KeyFrame_" + (i+1) + ".jpg";
-
-            Image img = null;
-            
-
-            try {
-                img = ImageIO.read(new File(imagePath));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imgArray[i] = (BufferedImage) img;
-        }
-
-        //loop through each file
-        for (int i = 0; i < fileCount; i++) {
-//            imgArray[i] = proc.cryptImg(imgArray[i]);
-            Mat m = new Mat(imgArray[i].getHeight(), imgArray[i].getWidth(), CvType.CV_8UC3);
-            byte[] pixels = ((DataBufferByte) imgArray[i].getRaster().getDataBuffer()).getData();
-            m.put(0, 0, pixels);
-            Imgcodecs.imwrite("LOCKED\\Password\\KeyFrame_" + (i+1) + ".jpg", m);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Exit;
