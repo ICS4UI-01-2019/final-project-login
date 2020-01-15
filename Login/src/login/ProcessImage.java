@@ -7,12 +7,16 @@ package login;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -24,7 +28,9 @@ public class ProcessImage {
     private File imageData;
     private FileWriter write;
     private FileReader read;
+    private BufferedReader bRead;
     private BufferedWriter bWrite;
+    private FileReader twoRead;
 
     /**
      * Gathers the average points of each finger (colour)
@@ -182,27 +188,43 @@ public class ProcessImage {
         //return the image
         return img;
     }
-    
+
     protected void rawData(BufferedImage img) {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            ImageIO.write(img, "jpeg", convert);
-        } catch (Exception e) {
-        }
-        byte[] rawImage = convert.toByteArray();
-        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-        try {
+            ImageIO.write(img, "jpg", convert);
+
+            byte[] rawImage = convert.toByteArray();
+            this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
-        } catch (Exception e) {
-        }
-        String data = rawImage.toString();
-        try {
+
+            String data = new String(rawImage, "UTF-18");
+
             this.bWrite.write(data);
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
     }
-
-    
+/**
+    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
+        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+        int placement = 0;
+        this.read = new FileReader(this.imageData);
+        this.bRead = new BufferedReader(this.read);
+        String data = this.bRead.readLine();
+        byte[] byteAsString = new byte[1024];
+        for (int i = 0; i <= data.length(); i++) { 
+        this.twoRead = new FileReader(this.imageData);
+            if(data.substring(i, i+1).equals("[") || data.substring(i, i+1).equals(" ") || data.substring(i, i+1).equals(",") || data.substring(i, i+1).equals("]")){
+                data = data.substring(i+1);
+            }else{
+                if(data.substring(i, i+1).equals("-")){
+                    byteAsString[placement] = data.substring(i, i+2).getBytes();
+                }
+            }
+        }
+    }
+    **/
 
 }
