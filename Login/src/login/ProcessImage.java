@@ -5,6 +5,7 @@
  */
 package login;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -192,7 +193,7 @@ public class ProcessImage {
     protected void rawData(BufferedImage img) {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            ImageIO.write(img, "jpg", convert);
+            ImageIO.write(img, "png", convert);
 
             byte[] rawImage = convert.toByteArray();
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
@@ -200,31 +201,45 @@ public class ProcessImage {
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
 
-            String data = new String(rawImage, "UTF-18");
+            String data = Base64.encode(rawImage);
 
             this.bWrite.write(data);
         } catch (IOException e) {
         }
     }
-/**
-    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
-        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-        int placement = 0;
-        this.read = new FileReader(this.imageData);
-        this.bRead = new BufferedReader(this.read);
-        String data = this.bRead.readLine();
-        byte[] byteAsString = new byte[1024];
-        for (int i = 0; i <= data.length(); i++) { 
-        this.twoRead = new FileReader(this.imageData);
-            if(data.substring(i, i+1).equals("[") || data.substring(i, i+1).equals(" ") || data.substring(i, i+1).equals(",") || data.substring(i, i+1).equals("]")){
-                data = data.substring(i+1);
-            }else{
-                if(data.substring(i, i+1).equals("-")){
-                    byteAsString[placement] = data.substring(i, i+2).getBytes();
-                }
-            }
-        }
-    }
-    **/
-
 }
+//    protected BufferedImage returnImage() throws FileNotFoundException, IOException{
+//        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+//        this.read = new FileReader(this.imageData);
+//        this.bRead = new BufferedReader(this.read);
+//        String data = this.bRead.readLine();
+//        byte[] conversion = data.getBytes();
+//        System.out.println(conversion);
+//       
+//    }
+
+//    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
+//        ByteArrayOutputStream convert = new ByteArrayOutputStream();
+//        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+//        int placement = 0;
+//        this.read = new FileReader(this.imageData);
+//        this.bRead = new BufferedReader(this.read);
+//        String data = this.bRead.readLine();
+//        byte[] byteAsString = new byte[1024];
+//        for (int i = 0; i <= data.length(); i++) { 
+//        this.twoRead = new FileReader(this.imageData);
+//            if(data.substring(i, i+1).equals("[") || data.substring(i, i+1).equals(" ") || data.substring(i, i+1).equals(",") || data.substring(i, i+1).equals("]")){
+//                data = data.substring(i+1);
+//            }else{
+//                if(data.substring(i, i+1).equals("-")){
+//                    byteAsString[placement] = data.substring(i, i+2).getBytes();
+//                }else{
+//                    byteAsString[placement] = data.substring(i, i+1).getBytes();
+//                }
+//            }
+//        }
+//        return BufferedImage.
+//    }
+//
+//
+//}
