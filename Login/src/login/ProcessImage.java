@@ -166,17 +166,17 @@ public class ProcessImage {
                 //get the colour of the current pixel
                 Color colour = new Color(img.getRGB(j, i));
                 //if the pixel's colour isn't any of the nessisary colours (fingertip colours) set the pixel's colour to black
-//                if (!(colour.getRed() >= 165 && colour.getRed() <= 185 && colour.getGreen() >= 55 && colour.getGreen() <= 80 && colour.getBlue() >= 55 && colour.getBlue() <= 85)) {
-//                    if (!(colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80)) {
-//                        if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
-//                            if (!(colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120)) {
-                if (!(colour.getRed() >= 185 && colour.getRed() <= 235 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145)) {
-                    img.setRGB(j, i, Color.black.getRGB());
+                //green
+                if (!(colour.getRed() >= 40 && colour.getRed() <= 69 && colour.getGreen() >= 64 && colour.getGreen() <= 102 && colour.getBlue() >= 28 && colour.getBlue() <= 57)) {
+                    //red
+                    if (!(colour.getRed() >= 112 && colour.getRed() <= 165 && colour.getGreen() >= 28 && colour.getGreen() <= 59 && colour.getBlue() >= 20 && colour.getBlue() <= 63)) {
+                        //yellow
+                        if (!(colour.getRed() >= 201 && colour.getRed() <= 253 && colour.getGreen() >= 144 && colour.getGreen() <= 244 && colour.getBlue() >= 28 && colour.getBlue() <= 79)) {
+                            img.setRGB(j, i, Color.black.getRGB());
+                        }
+                    }
+                    
                 }
-//                            }
-//                        }
-//                    }
-//                }
             }
         }
         //return the image
