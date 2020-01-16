@@ -108,6 +108,7 @@ public class Menu extends javax.swing.JFrame {
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         //end the program
         System.exit(0);
+        
     }//GEN-LAST:event_ExitActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
