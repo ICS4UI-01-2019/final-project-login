@@ -250,21 +250,21 @@ public class Gesture extends javax.swing.JFrame {
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
                             //**recording**
                             //if the number of frames is six reset the count to zero and save the image to the 'Password' folder (as a .jpg)
-//                            if (frameNum == 6) {
-//                                frameNum = 0;
-//                                loops++;
-//                                if (mode) {
-//                                    Imgcodecs.imwrite("LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
-//                                } else {
-//                                    Imgcodecs.imwrite("LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
-//                                }
-//                                System.out.println("Frame_" + loops + " SAVED!");
-//                            }
+                            if (frameNum == 6) {
+                                frameNum = 0;
+                                loops++;
+                                if (mode) {
+                                    Imgcodecs.imwrite("LOCKED\\Guess\\KeyFrame_" + loops + ".jpg", frame);
+                                } else {
+                                    Imgcodecs.imwrite("LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
+                                }
+                                System.out.println("Frame_" + loops + " SAVED!");
+                            }
 
 
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
-                            buff = proc.BlackImg(buff);
+//                            buff = proc.BlackImg(buff);
                             //get the graphics of the JLabel in the gesture window
                             Graphics g = video.getGraphics();
                             //draw the buffered image to the JLabel (video)
