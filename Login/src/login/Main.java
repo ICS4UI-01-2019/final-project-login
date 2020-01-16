@@ -18,6 +18,9 @@ public class Main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
+    
+    ProcessImage proc = new ProcessImage();
+    
     public static void main(String[] args) throws IOException {
         //load in the opencv java library
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);

@@ -195,30 +195,37 @@ public class ProcessImage {
     protected void rawData(BufferedImage img) {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            ImageIO.write(img, "png", convert);
+            //ImageIO.write(img, "png", convert);
 
             byte[] rawImage = convert.toByteArray();
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
 
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
-
             String data = Base64.encode(rawImage);
-
-            this.bWrite.write(data);
+            String dataPtOne = data.substring(0,data.length()/2);
+            String dataPtTwo = data.substring(data.length()/2 +1 , data.length()-1);
+            this.bWrite.write(dataPtOne);
+            this.bWrite.write(dataPtTwo);
+            bWrite.close();
         } catch (IOException e) {
         }
     }
+
+    protected BufferedImage returnImage() throws FileNotFoundException, IOException{
+        System.out.println("");
+        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+        this.read = new FileReader(this.imageData);
+        this.bRead = new BufferedReader(this.read);
+        this.bRead.readLine();
+        String data = this.bRead.readLine();
+        System.out.println(data);
+        byte[] conversion = data.getBytes();
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
+        return img;
+        
+    }
 }
-//    protected BufferedImage returnImage() throws FileNotFoundException, IOException{
-//        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-//        this.read = new FileReader(this.imageData);
-//        this.bRead = new BufferedReader(this.read);
-//        String data = this.bRead.readLine();
-//        byte[] conversion = data.getBytes();
-//        System.out.println(conversion);
-//       
-//    }
 
 //    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
 //        ByteArrayOutputStream convert = new ByteArrayOutputStream();
