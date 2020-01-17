@@ -56,7 +56,6 @@ public class FileInfo {
             //current keyframe index
             int index = (int) (i / 5);
             
-            System.out.println(index);
 
             //read in a line
             String line = buffRead.readLine();
@@ -125,17 +124,15 @@ public class FileInfo {
     public BufferedImage[] buffLoad(String path) throws IOException {
         long count = 0;
         try (Stream<Path> files = Files.list(Paths.get(path))) {
-            count = files.count();
+            count = files.count() - 1;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         BufferedImage[] buff = new BufferedImage[(int) count - 1];
 
         for (int i = 1; i < count; i++) {
 
             String imagePath = path + "\\KeyFrame_" + i + ".jpg";
-
             Image img = ImageIO.read(new File(imagePath));
             buff[i - 1] = (BufferedImage) img;
         }

@@ -17,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -78,7 +77,7 @@ public class ProcessImage {
                 Color colour = new Color(img.getRGB(j, i));
 
                 //check if the colour of the pixel is red(ish)
-                if (colour.getRed() >= 155 && colour.getRed() <= 255 && colour.getGreen() >= 0 && colour.getGreen() <= 55 && colour.getBlue() >= 0 && colour.getBlue() <= 100) {
+                if (colour.getRed() >= 112 && colour.getRed() <= 165 && colour.getGreen() >= 28 && colour.getGreen() <= 59 && colour.getBlue() >= 20 && colour.getBlue() <= 63) {
                     //if it's classified as red(ish)
                     redX += j;
                     redY += i;
@@ -94,7 +93,7 @@ public class ProcessImage {
                 }
 
                 //check if the colour of the pixel is yellow(ish)
-                if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
+                if (colour.getRed() >= 192 && colour.getRed() <= 255 && colour.getGreen() >= 169 && colour.getGreen() <= 242 && colour.getBlue() >= 67 && colour.getBlue() <= 94) {
                     //if it's classified as yellow(ish)
                     yellowX += j;
                     yellowY += i;
@@ -102,7 +101,7 @@ public class ProcessImage {
                 }
 
                 //check if the colour of the pixel is green(ish)
-                if (colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120) {
+                if (colour.getRed() >= 23 && colour.getRed() <= 73 && colour.getGreen() >= 58 && colour.getGreen() <= 127 && colour.getBlue() >= 20 && colour.getBlue() <= 69) {
                     //if it's classified as geen(ish)
                     greenX += j;
                     greenY += i;
@@ -115,7 +114,6 @@ public class ProcessImage {
                     blueX += j;
                     blueY += i;
                     blueCount++;
-                    System.out.println(j + "," + i);
                 }
 
             }
@@ -147,8 +145,6 @@ public class ProcessImage {
             blueX /= blueCount;
             blueY /= blueCount;
         }
-
-        System.out.println(redX);
 
         //format the average points
         avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + orangeX + "," + orangeY + "]\n";
@@ -213,13 +209,11 @@ public class ProcessImage {
     }
 
     protected BufferedImage returnImage() throws FileNotFoundException, IOException{
-        System.out.println("");
         this.imageData = new File("LOCKED\\Password\\rawImage.txt");
         this.read = new FileReader(this.imageData);
         this.bRead = new BufferedReader(this.read);
         this.bRead.readLine();
         String data = this.bRead.readLine();
-        System.out.println(data);
         byte[] conversion = data.getBytes();
         BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
         return img;

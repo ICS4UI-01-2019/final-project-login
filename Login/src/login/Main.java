@@ -39,7 +39,7 @@ public class Main {
         int points = 0;
         //the maximum percentage (in decimal form) of incorrect points
         double maxPercentDec = 0.1;
-
+        
         //compare the distance betweem each keyframe
         for (int i = 0; i < keys1.length; i++) {
             //blue to red
@@ -112,14 +112,10 @@ public class Main {
                 }
             }
             
-            System.out.println(keys2[i].getBlueY());
-            System.out.println(keys2[i].getBlueX());
             
             //add to the number of points
             points += 10;
         }
-        System.out.println(points);
-        System.out.println(incorrectDist);
         
         //check if enough key points are correct (or not too many are wrong)
         if(incorrectDist == 0 || (incorrectDist/points) <= maxPercentDec){
