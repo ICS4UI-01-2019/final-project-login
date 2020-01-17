@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
@@ -182,71 +183,67 @@ public class ProcessImage {
                             img.setRGB(j, i, Color.black.getRGB());
                         }
                     }
-                    
+
                 }
             }
         }
         //return the image
         return img;
     }
-
+    /**
+     * Encodes a provided image
+     * @param img the image you want to encode
+     */
     protected void rawData(BufferedImage img) {
+        //Create an output stream which allows for you to manipulate the wate the byte is used
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            //ImageIO.write(img, "png", convert);
-
+            //Gets the image and turns it into a byte array
+            ImageIO.write(img, "jpg", convert);
             byte[] rawImage = convert.toByteArray();
+            //Locates the file it writes to
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-
+            //Setting up the writer
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
-            String data = Base64.encode(rawImage);
-            String dataPtOne = data.substring(0,data.length()/2);
-            String dataPtTwo = data.substring(data.length()/2 +1 , data.length()-1);
-            this.bWrite.write(dataPtOne);
-            this.bWrite.write(dataPtTwo);
-            bWrite.close();
+            //Encodes the data and truns it to a char array
+            char[] data = Base64.encode(rawImage).toCharArray();
+            String data2 = "";
+            //Every 100 lines adds a space so the encoded imformation can be printed completely
+            for (int i = 0; i < data.length; i++) {
+                if (i % 100 == 0) {
+                    data2 += "\n";
+                }
+                //Adds each of the characters to the string
+                data2 += data[i];
+            }
+            //Writes the data to the file
+            bWrite.write(data2);
+            //Unclogs the buffered writer so there isnt excessive backup
+            bWrite.flush();
         } catch (IOException e) {
         }
     }
-
-    protected BufferedImage returnImage() throws FileNotFoundException, IOException{
-        System.out.println("");
+    /**
+     * decodes the byte array and turns it back to an image
+     * @return the image that has been decoded
+     * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
+     * @throws IOException because of the nature of writing to file has to do a throw statement
+     */
+    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
+        //gets the file it needs to access
         this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-        this.read = new FileReader(this.imageData);
-        this.bRead = new BufferedReader(this.read);
-        this.bRead.readLine();
-        String data = this.bRead.readLine();
-        System.out.println(data);
-        byte[] conversion = data.getBytes();
+        //scans in the file into a string
+        Scanner s = new Scanner(this.imageData);
+        String data = "";
+        while(s.hasNext()){
+            data += s.nextLine();
+        }
+        //Decodes the data
+        byte[] conversion = Base64.decode(data);
+        //Turns the raw data back to an image and returns it
         BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
         return img;
-        
+
     }
 }
-
-//    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
-//        ByteArrayOutputStream convert = new ByteArrayOutputStream();
-//        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-//        int placement = 0;
-//        this.read = new FileReader(this.imageData);
-//        this.bRead = new BufferedReader(this.read);
-//        String data = this.bRead.readLine();
-//        byte[] byteAsString = new byte[1024];
-//        for (int i = 0; i <= data.length(); i++) { 
-//        this.twoRead = new FileReader(this.imageData);
-//            if(data.substring(i, i+1).equals("[") || data.substring(i, i+1).equals(" ") || data.substring(i, i+1).equals(",") || data.substring(i, i+1).equals("]")){
-//                data = data.substring(i+1);
-//            }else{
-//                if(data.substring(i, i+1).equals("-")){
-//                    byteAsString[placement] = data.substring(i, i+2).getBytes();
-//                }else{
-//                    byteAsString[placement] = data.substring(i, i+1).getBytes();
-//                }
-//            }
-//        }
-//        return BufferedImage.
-//    }
-//
-//
-//}
