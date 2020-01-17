@@ -79,7 +79,7 @@ public class ProcessImage {
                 Color colour = new Color(img.getRGB(j, i));
 
                 //check if the colour of the pixel is red(ish)
-                if (colour.getRed() >= 155 && colour.getRed() <= 255 && colour.getGreen() >= 0 && colour.getGreen() <= 55 && colour.getBlue() >= 0 && colour.getBlue() <= 100) {
+                if (colour.getRed() >= 112 && colour.getRed() <= 165 && colour.getGreen() >= 28 && colour.getGreen() <= 59 && colour.getBlue() >= 20 && colour.getBlue() <= 63) {
                     //if it's classified as red(ish)
                     redX += j;
                     redY += i;
@@ -95,7 +95,7 @@ public class ProcessImage {
                 }
 
                 //check if the colour of the pixel is yellow(ish)
-                if (!(colour.getRed() >= 150 && colour.getRed() <= 255 && colour.getGreen() >= 200 && colour.getGreen() <= 255 && colour.getBlue() >= 20 && colour.getBlue() <= 130)) {
+                if (colour.getRed() >= 192 && colour.getRed() <= 255 && colour.getGreen() >= 169 && colour.getGreen() <= 242 && colour.getBlue() >= 67 && colour.getBlue() <= 94) {
                     //if it's classified as yellow(ish)
                     yellowX += j;
                     yellowY += i;
@@ -103,7 +103,7 @@ public class ProcessImage {
                 }
 
                 //check if the colour of the pixel is green(ish)
-                if (colour.getRed() >= 0 && colour.getRed() <= 40 && colour.getGreen() >= 100 && colour.getGreen() <= 140 && colour.getBlue() >= 80 && colour.getBlue() <= 120) {
+                if (colour.getRed() >= 23 && colour.getRed() <= 73 && colour.getGreen() >= 58 && colour.getGreen() <= 127 && colour.getBlue() >= 20 && colour.getBlue() <= 69) {
                     //if it's classified as geen(ish)
                     greenX += j;
                     greenY += i;
@@ -111,12 +111,11 @@ public class ProcessImage {
                 }
 
                 //check if the colour of the pixel is blue(ish)
-                if (colour.getRed() >= 0 && colour.getRed() <= 30 && colour.getGreen() >= 20 && colour.getGreen() <= 65 && colour.getBlue() >= 100 && colour.getBlue() <= 145) {
+                if (colour.getRed() >= 61 && colour.getRed() <= 140 && colour.getGreen() >= 122 && colour.getGreen() <= 202 && colour.getBlue() >= 123 && colour.getBlue() <= 191) {
                     //if it's classified as blue(ish)
                     blueX += j;
                     blueY += i;
                     blueCount++;
-                    System.out.println(j + "," + i);
                 }
 
             }
@@ -149,8 +148,6 @@ public class ProcessImage {
             blueY /= blueCount;
         }
 
-        System.out.println(redX);
-
         //format the average points
         avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + orangeX + "," + orangeY + "]\n";
 
@@ -175,12 +172,15 @@ public class ProcessImage {
                 Color colour = new Color(img.getRGB(j, i));
                 //if the pixel's colour isn't any of the nessisary colours (fingertip colours) set the pixel's colour to black
                 //green
-                if (!(colour.getRed() >= 40 && colour.getRed() <= 69 && colour.getGreen() >= 64 && colour.getGreen() <= 102 && colour.getBlue() >= 28 && colour.getBlue() <= 57)) {
+                if (!(colour.getRed() >= 23 && colour.getRed() <= 73 && colour.getGreen() >= 58 && colour.getGreen() <= 127 && colour.getBlue() >= 20 && colour.getBlue() <= 69)) {
                     //red
                     if (!(colour.getRed() >= 112 && colour.getRed() <= 165 && colour.getGreen() >= 28 && colour.getGreen() <= 59 && colour.getBlue() >= 20 && colour.getBlue() <= 63)) {
                         //yellow
-                        if (!(colour.getRed() >= 201 && colour.getRed() <= 253 && colour.getGreen() >= 144 && colour.getGreen() <= 244 && colour.getBlue() >= 28 && colour.getBlue() <= 79)) {
-                            img.setRGB(j, i, Color.black.getRGB());
+                        if (!(colour.getRed() >= 192 && colour.getRed() <= 255 && colour.getGreen() >= 169 && colour.getGreen() <= 242 && colour.getBlue() >= 67 && colour.getBlue() <= 94)) {
+                            //light blue
+                            if (!(colour.getRed() >= 61 && colour.getRed() <= 140 && colour.getGreen() >= 122 && colour.getGreen() <= 202 && colour.getBlue() >= 123 && colour.getBlue() <= 191)) {
+                                img.setRGB(j, i, Color.black.getRGB());
+                            }
                         }
                     }
 

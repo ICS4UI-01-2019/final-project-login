@@ -107,7 +107,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         //end the program
-        System.exit(0);
+        System.exit(-1);
         
     }//GEN-LAST:event_ExitActionPerformed
 
@@ -118,7 +118,9 @@ public class Menu extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         ProcessImage img = new ProcessImage();
         try {
-            img.rawData((BufferedImage) ImageIO.read(new File("LOCKED\\Guess\\KeyFrame_1.jpg")));
+
+            img.rawData((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")));
+
         } catch (IOException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
