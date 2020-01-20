@@ -6,6 +6,8 @@
 package login;
 
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -110,14 +112,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+
         Desktop desk = Desktop.getDesktop();
         File data = new File("LOCKED\\Data");
-        try {
-            desk.open(data);
-        } catch (IOException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_OpenActionPerformed
+                                   
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         

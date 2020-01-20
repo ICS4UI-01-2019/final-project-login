@@ -6,6 +6,7 @@
 package login;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import org.opencv.core.Core;
 
@@ -24,29 +25,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //load in the opencv java library
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        FileInfo fInfo = new FileInfo();
-
-        //get the guess information and format to an array of keyframes
-        BufferedImage[] guess = fInfo.buffLoad("LOCKED\\Guess");
-        fInfo.updateFile("LOCKED\\Guess\\Config.txt", guess);
-        KeyFrame[] key1 = fInfo.readFile("LOCKED\\Guess\\Config.txt");
-        //get the password information and format to an array of keyframes
-        BufferedImage[] pass = fInfo.buffLoad("LOCKED\\Password");
-        fInfo.updateFile("LOCKED\\Password\\Config.txt", pass);
-        KeyFrame[] key2 = fInfo.readFile("LOCKED\\Password\\Config.txt");
-        //use the compareKeys() method in an instance of the main method to find out if the two gestures are the same
-        Main m = new Main();
-        if (m.compareKeys(key1, key2)) {
-            //if their the same open the menu and let the user know that the gestures were a match
-            System.out.println("Match");
-            new Menu().setVisible(true);
-        } else {
-            //otherwise close the windows and tell user the gestures weren't a match
-            System.out.println("No Match");
-            System.exit(-1);
-        }
         //open gesture window (with the gesture input mode)
-//        new Gesture(true).setVisible(true);
+        new Gesture(true).setVisible(true);
 
     }
 
@@ -164,6 +144,10 @@ public class Main {
         int distance = (int) (Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))));
 //        System.out.println(distance);
         return distance;
+    }
+    
+    public void deleteRawImages(String path){
+//        File file = new File(path + "rawImage" + i + ".txt");
     }
 
 }
