@@ -192,22 +192,22 @@ public class ProcessImage {
     }
     /**
      * Encodes a provided image
-     * @param img the image you want to encode
+     * @param needEncode the data needed to be encrypted
      */
-    protected void rawData(BufferedImage img) {
-        //Create an output stream which allows for you to manipulate the wate the byte is used
-        ByteArrayOutputStream convert = new ByteArrayOutputStream();
+    protected void rawData(byte[] needEncode) {
+//        //Create an output stream which allows for you to manipulate the wate the byte is used
+//        ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-            //Gets the image and turns it into a byte array
-            ImageIO.write(img, "jpg", convert);
-            byte[] rawImage = convert.toByteArray();
+//            //Gets the image and turns it into a byte array
+//            ImageIO.write(img, "jpg", convert);
+//            byte[] rawImage = convert.toByteArray();
             //Locates the file it writes to
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
             //Setting up the writer
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
             //Encodes the data and truns it to a char array
-            char[] data = Base64.encode(rawImage).toCharArray();
+            char[] data = Base64.encode(needEncode).toCharArray();
             String data2 = "";
             //Every 100 lines adds a space so the encoded imformation can be printed completely
             for (int i = 0; i < data.length; i++) {
@@ -230,7 +230,7 @@ public class ProcessImage {
      * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
      * @throws IOException because of the nature of writing to file has to do a throw statement
      */
-    protected BufferedImage returnImage() throws FileNotFoundException, IOException {
+    protected byte[] returnImage() throws FileNotFoundException, IOException {
         //gets the file it needs to access
         this.imageData = new File("LOCKED\\Password\\rawImage.txt");
         //scans in the file into a string
@@ -241,9 +241,9 @@ public class ProcessImage {
         }
         //Decodes the data
         byte[] conversion = Base64.decode(data);
-        //Turns the raw data back to an image and returns it
-        BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
-        return img;
+//        //Turns the raw data back to an image and returns it
+//        BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
+        return conversion;
 
     }
 }

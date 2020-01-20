@@ -18,15 +18,15 @@ public class TestLoad extends javax.swing.JFrame {
     /**
      * Creates new form TestLoad
      */
-    public TestLoad() {
-        initComponents();
-        ProcessImage pi = new ProcessImage();
-        try {
-            image.setImage(pi.returnImage());
-        } catch (IOException ex) {
-            Logger.getLogger(TestLoad.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public TestLoad() {
+//        initComponents();
+//        ProcessImage pi = new ProcessImage();
+//        try {
+//            image.setImage(pi.returnImage());
+//        } catch (IOException ex) {
+//            Logger.getLogger(TestLoad.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.

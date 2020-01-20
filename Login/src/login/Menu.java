@@ -5,8 +5,10 @@
  */
 package login;
 
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -112,14 +114,16 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
-        //the secret file will be opened
+        
     }//GEN-LAST:event_OpenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         ProcessImage img = new ProcessImage();
         try {
-
-            img.rawData((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")));
+            ByteArrayOutputStream convert = new ByteArrayOutputStream();
+            ImageIO.write((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")), "jpg", convert);
+            byte[] rawImage = convert.toByteArray();
+            img.rawData(rawImage);
 
         } catch (IOException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
