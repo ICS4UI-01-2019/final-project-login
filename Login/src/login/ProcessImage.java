@@ -188,13 +188,13 @@ public class ProcessImage {
         return img;
     }
 
-    protected void rawData(BufferedImage img) {
+    protected void rawData(BufferedImage img, int index) {
         ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
             //ImageIO.write(img, "png", convert);
 
             byte[] rawImage = convert.toByteArray();
-            this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+            this.imageData = new File("LOCKED\\Password\\rawImage" + index + ".txt");
 
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);

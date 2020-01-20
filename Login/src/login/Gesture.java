@@ -9,9 +9,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
@@ -180,6 +184,18 @@ public class Gesture extends javax.swing.JFrame {
         this.Start.setEnabled(true);
         //disable the video capture device
         this.webSource.release();
+        
+        for (int i = 0; i < fileCount; i++) {
+            try {
+                File file  = new File("LOCKED\\Password\\KeyFrame_" + (i + 1) + ".jpg");
+                Image img = ImageIO.read(file);
+                proc.rawData((BufferedImage) img, (i + 1));
+                file.delete();
+            } catch (IOException ex) {
+                Logger.getLogger(Gesture.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+        }
     }//GEN-LAST:event_StopActionPerformed
 
     /**

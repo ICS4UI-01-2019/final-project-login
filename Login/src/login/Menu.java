@@ -5,6 +5,7 @@
  */
 package login;
 
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -112,16 +113,17 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_ExitActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
-        //the secret file will be opened
-    }//GEN-LAST:event_OpenActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        ProcessImage img = new ProcessImage();
+        Desktop desk = Desktop.getDesktop();
+        File data = new File("LOCKED\\Data");
         try {
-            img.rawData((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")));
+            desk.open(data);
         } catch (IOException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_OpenActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**
