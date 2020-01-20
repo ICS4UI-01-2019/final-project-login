@@ -204,6 +204,7 @@ public class ProcessImage {
             //Locates the file it writes to
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
             //Setting up the writer
+            
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
             //Encodes the data and truns it to a char array
