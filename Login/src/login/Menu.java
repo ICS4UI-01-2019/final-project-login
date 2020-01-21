@@ -6,8 +6,6 @@
 package login;
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,7 +17,7 @@ import org.opencv.core.Core;
  * @author Purew
  */
 public class Menu extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Menu
      */
@@ -101,35 +99,43 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+        //delete the old password (raw image files)
+        Main.deleteRawImages("LOCKED\\Password");
+        
         //open gesture window (with the gesture setup mode)
-        new Gesture(true).setVisible(false);
+        new Gesture(false).setVisible(true);
     }//GEN-LAST:event_ResetActionPerformed
 
     private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         //end the program
         System.exit(-1);
-        
+
     }//GEN-LAST:event_ExitActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
 
         Desktop desk = Desktop.getDesktop();
         File data = new File("LOCKED\\Data");
-        
+        try {
+            desk.open(data);
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_OpenActionPerformed
-                                   
+
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -160,7 +166,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Exit;

@@ -309,13 +309,14 @@ public class Gesture extends javax.swing.JFrame {
                                 if (loops == fileCount) {
                                     //stop the camera
                                     this.runnable = false;
-
-                                    //get the number of keyframes in the password folder
+                                    Main.g.setEnabled(false);
+                                    //get the number of keyframes in the guess folder
                                     try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Guess"))) {
                                         fileCount = files.count() - 2;
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
+                                    System.out.println(fileCount);
                                     for (int i = 0; i < fileCount; i++) {
                                         try {
                                             File file = new File("LOCKED\\Guess\\KeyFrame_" + (i + 1) + ".jpg");
@@ -347,7 +348,7 @@ public class Gesture extends javax.swing.JFrame {
                                     } else {
                                         //otherwise close the windows and tell user the gestures weren't a match
                                         System.out.println("No Match");
-                                        System.exit(0);
+                                        System.exit(-1);
                                     }
                                 }
                             }

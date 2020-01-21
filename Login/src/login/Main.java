@@ -5,9 +5,12 @@
  */
 package login;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 import org.opencv.core.Core;
 
 /**
@@ -21,29 +24,33 @@ public class Main {
      * @throws java.io.IOException
      */
     ProcessImage proc = new ProcessImage();
+    static Gesture g;
 
     public static void main(String[] args) throws IOException {
         //load in the opencv java library
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        //delete any old guesses
+        deleteRawImages("LOCKED\\Guess");
         //open gesture window (with the gesture input mode)
-        new Gesture(true).setVisible(true);
+        g = new Gesture(true);
+        g.setVisible(true);
 
     }
 
     public boolean compareKeys(KeyFrame[] keys1, KeyFrame[] keys2) {
         //the max difference threshold to deem two keyframes not the same
-        int diff = 10;
+        int diff = 40;
 
         //the number of incorrect keypoint distances
         double incorrectDist = 0;
         //the number of total keypoints
         double points = 0;
         //the maximum percentage (in decimal form) of incorrect points
-        double maxPercentDec = 0.1;
+        double maxPercentDec = 0.30;
 
         //compare the distance betweem each keyframe
         for (int i = 0; i < keys1.length; i++) {
-            //blue to red
+
             if (keys1[i].getBlue() && keys2[i].getBlue() && keys1[i].getRed() && keys2[i].getRed()) {
                 if (this.getDist(keys1[i].getBlueX(), keys1[i].getBlueY(), keys1[i].getRedX(), keys1[i].getRedY()) - this.getDist(keys2[i].getBlueX(), keys2[i].getBlueY(), keys2[i].getRedX(), keys2[i].getRedY()) < -(diff) || this.getDist(keys1[i].getBlueX(), keys1[i].getBlueY(), keys1[i].getRedX(), keys1[i].getRedY()) - this.getDist(keys2[i].getBlueX(), keys2[i].getBlueY(), keys2[i].getRedX(), keys2[i].getRedY()) > diff) {
                     incorrectDist++;
@@ -123,7 +130,7 @@ public class Main {
                 }
             }
             System.out.println(incorrectDist);
-            
+
             //add to the number of points
             points += 10;
             System.out.println(points + "    !");
@@ -145,9 +152,22 @@ public class Main {
 //        System.out.println(distance);
         return distance;
     }
-    
-    public void deleteRawImages(String path){
-//        File file = new File(path + "rawImage" + i + ".txt");
+
+    public static void deleteRawImages(String path) {
+
+        //get the number of keyframes in the password folder
+        long fileCount = 0;
+        try (Stream<Path> files = Files.list(Paths.get(path))) {
+            fileCount = files.count() - 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(fileCount);
+        for (int i = 1; i < fileCount; i++) {
+            File file = new File(path + "\\rawImage" + i + ".txt");
+            file.delete();
+        }
+        
     }
 
 }
