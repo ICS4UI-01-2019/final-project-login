@@ -191,16 +191,11 @@ public class ProcessImage {
         return img;
     }
     /**
-     * Encodes a provided image
+     * Encodes a provided byte array
      * @param needEncode the data needed to be encrypted
      */
     protected void rawData(byte[] needEncode) {
-//        //Create an output stream which allows for you to manipulate the wate the byte is used
-//        ByteArrayOutputStream convert = new ByteArrayOutputStream();
         try {
-//            //Gets the image and turns it into a byte array
-//            ImageIO.write(img, "jpg", convert);
-//            byte[] rawImage = convert.toByteArray();
             //Locates the file it writes to
             this.imageData = new File("LOCKED\\Password\\rawImage.txt");
             //Setting up the writer
@@ -226,8 +221,8 @@ public class ProcessImage {
         }
     }
     /**
-     * decodes the byte array and turns it back to an image
-     * @return the image that has been decoded
+     * decodes the byte array
+     * @return the decoded byte array
      * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
      * @throws IOException because of the nature of writing to file has to do a throw statement
      */
@@ -237,13 +232,12 @@ public class ProcessImage {
         //scans in the file into a string
         Scanner s = new Scanner(this.imageData);
         String data = "";
+        //scans though all of lines
         while(s.hasNext()){
             data += s.nextLine();
         }
-        //Decodes the data
+        //Decodes the data and returns it
         byte[] conversion = Base64.decode(data);
-//        //Turns the raw data back to an image and returns it
-//        BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
         return conversion;
 
     }

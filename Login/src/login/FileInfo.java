@@ -120,23 +120,31 @@ public class FileInfo {
         buffWrite.write(data);
         buffWrite.flush();
     }
-
+    /**
+     * creates an array of images inside a given file
+     * @param path the file that will be edited
+     * @return the array of images
+     * @throws IOException throws an exception if file reading goes wrong
+     */
     public BufferedImage[] buffLoad(String path) throws IOException {
         long count = 0;
+        //gets the series of files within a folder
         try (Stream<Path> files = Files.list(Paths.get(path))) {
+            //gets the amount of files in a usuable form for the loop
             count = files.count() - 1;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //initializing the array of images
         BufferedImage[] buff = new BufferedImage[(int) count - 1];
-
+        //puts all of the imagesw within the folder into the array of images
         for (int i = 1; i < count; i++) {
 
             String imagePath = path + "\\KeyFrame_" + i + ".jpg";
             Image img = ImageIO.read(new File(imagePath));
             buff[i - 1] = (BufferedImage) img;
         }
-
+        //returns the array of images
         return buff;
     }
 }

@@ -118,11 +118,15 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_OpenActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        //accesses process imagfe in varible
         ProcessImage img = new ProcessImage();
         try {
+            //Create an output stream which allows for you to manipulate the wate the byte is used
             ByteArrayOutputStream convert = new ByteArrayOutputStream();
+            //Gets the image and turns it into a byte array
             ImageIO.write((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")), "jpg", convert);
             byte[] rawImage = convert.toByteArray();
+            //encodes the images
             img.rawData(rawImage);
 
         } catch (IOException ex) {

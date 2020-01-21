@@ -127,7 +127,7 @@ public class Main {
         return false;
 
     }
-
+    
     public int getDist(int x1, int y1, int x2, int y2) {
         int distance = (int) (Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))));
         return distance;
