@@ -191,16 +191,15 @@ public class ProcessImage {
         return img;
     }
     /**
-     * Encodes a provided image
+     * Encodes a provided byte array
      * @param needEncode the data needed to be encrypted
+     * @param finalPath the path to the file that we write to
      */
     protected void rawData(byte[] needEncode, String finalPath) {
             try {
-
-
-            
+            //initializing the file that will be wrote to
             this.imageData = new File(finalPath);
-
+            //initializes the writer that writes to the file provided
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
             //Encodes the data and truns it to a char array
@@ -222,8 +221,9 @@ public class ProcessImage {
         }
     }
     /**
-     * decodes the byte array and turns it back to an image
-     * @return the image that has been decoded
+     * decodes a file
+     * @param path the file that needs to be read and uncoded
+     * @return the decoded byte array
      * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
      * @throws IOException because of the nature of writing to file has to do a throw statement
      */
@@ -234,13 +234,12 @@ public class ProcessImage {
         Scanner s = new Scanner(this.imageData);
         s.nextLine();
         String data = "";
+        //scans though all of lines
         while(s.hasNext()){
             data += s.nextLine();
         }
-        //Decodes the data
+        //Decodes the data and returns it
         byte[] conversion = Base64.decode(data);
-//        //Turns the raw data back to an image and returns it
-//        BufferedImage img = ImageIO.read(new ByteArrayInputStream(conversion));
         return conversion;
 
     }

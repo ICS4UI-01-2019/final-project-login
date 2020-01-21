@@ -193,13 +193,20 @@ public class Gesture extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //reads through all files through for loop
         for (int i = 0; i < fileCount; i++) {
             try {
+                //accesses the specific image
                 File file = new File("LOCKED\\Password\\KeyFrame_" + (i + 1) + ".jpg");
+                //Creates a byte output stream allowing for the manipulation of bytes
                 ByteArrayOutputStream convert = new ByteArrayOutputStream();
+                //converts the image to a form that can be converted to byte array
                 ImageIO.write((BufferedImage) ImageIO.read(file), "jpg", convert);
+                //converts to byte array
                 byte[] rawImage = convert.toByteArray();
+                //encodes the image byte array and outputs it to desired location
                 proc.rawData(rawImage, "LOCKED\\Password\\rawImage" + (i + 1) + ".txt");
+                //deletes the original uncoded image file
                 file.delete();
             } catch (IOException ex) {
                 Logger.getLogger(Gesture.class.getName()).log(Level.SEVERE, null, ex);
@@ -316,14 +323,20 @@ public class Gesture extends javax.swing.JFrame {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-                                    System.out.println(fileCount);
+                                    //for statement reads though all files
                                     for (int i = 0; i < fileCount; i++) {
                                         try {
+                                            //define file being edited
                                             File file = new File("LOCKED\\Guess\\KeyFrame_" + (i + 1) + ".jpg");
+                                            //setting byte output stream that can manipulate bytes
                                             ByteArrayOutputStream convert = new ByteArrayOutputStream();
+                                            //converting the image to something that canb be turned to a byte array
                                             ImageIO.write((BufferedImage) ImageIO.read(file), "jpg", convert);
+                                            //converts image to byte array
                                             byte[] rawImage = convert.toByteArray();
+                                            //encodes the image byte array and puts it into its own file
                                             proc.rawData(rawImage, "LOCKED\\Guess\\rawImage" + (i + 1) + ".txt");
+                                            //deletes origanal image file
                                             file.delete();
                                         } catch (IOException ex) {
                                             Logger.getLogger(Gesture.class.getName()).log(Level.SEVERE, null, ex);

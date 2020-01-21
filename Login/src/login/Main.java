@@ -146,10 +146,17 @@ public class Main {
         return false;
 
     }
-
+    /**
+     * checks the distance between two points
+     * @param x1 first x coordinate
+     * @param y1 first y coordinate
+     * @param x2 second x coordinate
+     * @param y2 second y coordinate
+     * @return the distance between the two points
+     */
     public int getDist(int x1, int y1, int x2, int y2) {
+        //Find the length between points and returns it
         int distance = (int) (Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))));
-//        System.out.println(distance);
         return distance;
     }
 

@@ -111,9 +111,9 @@ public class Menu extends javax.swing.JFrame {
         System.exit(-1);
 
     }//GEN-LAST:event_ExitActionPerformed
-
+ 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
-
+        //opens the folder that contains all the information they wanted to keep locked
         Desktop desk = Desktop.getDesktop();
         File data = new File("LOCKED\\Data");
         try {
