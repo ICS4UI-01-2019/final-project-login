@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -24,6 +25,8 @@ import javax.imageio.ImageIO;
  * @author Purew
  */
 public class FileInfo {
+    
+    ProcessImage proc = new ProcessImage();
 
     /**
      * Reads in all of the data of a gesture file(and formats it)
@@ -139,9 +142,7 @@ public class FileInfo {
         BufferedImage[] buff = new BufferedImage[(int) count - 1];
         //puts all of the imagesw within the folder into the array of images
         for (int i = 1; i < count; i++) {
-
-            String imagePath = path + "\\KeyFrame_" + i + ".jpg";
-            Image img = ImageIO.read(new File(imagePath));
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(proc.returnUncoded(path + "\\rawImage" + i + ".txt")));
             buff[i - 1] = (BufferedImage) img;
         }
         //returns the array of images

@@ -9,9 +9,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import org.opencv.core.Core;
@@ -46,6 +51,7 @@ public class Gesture extends javax.swing.JFrame {
     //instance of file info
     FileInfo fInfo = new FileInfo();
     ProcessImage proc = new ProcessImage();
+
     /**
      * Creates new form Window
      *
@@ -70,7 +76,7 @@ public class Gesture extends javax.swing.JFrame {
             Stop.setEnabled(false);
             Start.setEnabled(false);
         }
-        
+
         //get the number of keyframes in the password folder
         try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
             fileCount = files.count() - 2;
@@ -180,6 +186,33 @@ public class Gesture extends javax.swing.JFrame {
         this.Start.setEnabled(true);
         //disable the video capture device
         this.webSource.release();
+
+        //get the number of keyframes in the password folder
+        try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
+            fileCount = files.count() - 2;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //reads through all files through for loop
+        for (int i = 0; i < fileCount; i++) {
+            try {
+                //accesses the specific image
+                File file = new File("LOCKED\\Password\\KeyFrame_" + (i + 1) + ".jpg");
+                //Creates a byte output stream allowing for the manipulation of bytes
+                ByteArrayOutputStream convert = new ByteArrayOutputStream();
+                //converts the image to a form that can be converted to byte array
+                ImageIO.write((BufferedImage) ImageIO.read(file), "jpg", convert);
+                //converts to byte array
+                byte[] rawImage = convert.toByteArray();
+                //encodes the image byte array and outputs it to desired location
+                proc.rawData(rawImage, "LOCKED\\Password\\rawImage" + (i + 1) + ".txt");
+                //deletes the original uncoded image file
+                file.delete();
+            } catch (IOException ex) {
+                Logger.getLogger(Gesture.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }//GEN-LAST:event_StopActionPerformed
 
     /**
@@ -262,7 +295,6 @@ public class Gesture extends javax.swing.JFrame {
                                 System.out.println("Frame_" + loops + " SAVED!");
                             }
 
-
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
 //                            buff = proc.BlackImg(buff);
@@ -284,6 +316,33 @@ public class Gesture extends javax.swing.JFrame {
                                 if (loops == fileCount) {
                                     //stop the camera
                                     this.runnable = false;
+
+                                    //get the number of keyframes in the password folder
+                                    try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Guess"))) {
+                                        fileCount = files.count() - 2;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    //for statement reads though all files
+                                    for (int i = 0; i < fileCount; i++) {
+                                        try {
+                                            //define file being edited
+                                            File file = new File("LOCKED\\Guess\\KeyFrame_" + (i + 1) + ".jpg");
+                                            //setting byte output stream that can manipulate bytes
+                                            ByteArrayOutputStream convert = new ByteArrayOutputStream();
+                                            //converting the image to something that canb be turned to a byte array
+                                            ImageIO.write((BufferedImage) ImageIO.read(file), "jpg", convert);
+                                            //converts image to byte array
+                                            byte[] rawImage = convert.toByteArray();
+                                            //encodes the image byte array and puts it into its own file
+                                            proc.rawData(rawImage, "LOCKED\\Guess\\rawImage" + (i + 1) + ".txt");
+                                            //deletes origanal image file
+                                            file.delete();
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(Gesture.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+
+                                    }
                                     //get the guess information and format to an array of keyframes
                                     BufferedImage[] guess = fInfo.buffLoad("LOCKED\\Guess");
                                     fInfo.updateFile("LOCKED\\Guess\\Config.txt", guess);

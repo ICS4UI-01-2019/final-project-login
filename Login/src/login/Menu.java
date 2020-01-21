@@ -6,14 +6,12 @@
 package login;
 
 import java.awt.Desktop;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.opencv.core.Core;
 
 /**
@@ -112,26 +110,17 @@ public class Menu extends javax.swing.JFrame {
         System.exit(-1);
         
     }//GEN-LAST:event_ExitActionPerformed
-
+ 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+        //opens the folder that contains all the information they wanted to keep locked
+        Desktop desk = Desktop.getDesktop();
+        File data = new File("LOCKED\\Data");
         
     }//GEN-LAST:event_OpenActionPerformed
+                                   
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        //accesses process imagfe in varible
-        ProcessImage img = new ProcessImage();
-        try {
-            //Create an output stream which allows for you to manipulate the wate the byte is used
-            ByteArrayOutputStream convert = new ByteArrayOutputStream();
-            //Gets the image and turns it into a byte array
-            ImageIO.write((BufferedImage) ImageIO.read(new File("LOCKED\\Password\\KeyFrame_1.jpg")), "jpg", convert);
-            byte[] rawImage = convert.toByteArray();
-            //encodes the images
-            img.rawData(rawImage);
-
-        } catch (IOException ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_formWindowClosing
 
     /**

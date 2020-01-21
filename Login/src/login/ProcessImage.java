@@ -193,13 +193,13 @@ public class ProcessImage {
     /**
      * Encodes a provided byte array
      * @param needEncode the data needed to be encrypted
+     * @param finalPath the path to the file that we write to
      */
-    protected void rawData(byte[] needEncode) {
-        try {
-            //Locates the file it writes to
-            this.imageData = new File("LOCKED\\Password\\rawImage.txt");
-            //Setting up the writer
-            
+    protected void rawData(byte[] needEncode, String finalPath) {
+            try {
+            //initializing the file that will be wrote to
+            this.imageData = new File(finalPath);
+            //initializes the writer that writes to the file provided
             this.write = new FileWriter(this.imageData, true);
             this.bWrite = new BufferedWriter(write);
             //Encodes the data and truns it to a char array
@@ -221,16 +221,18 @@ public class ProcessImage {
         }
     }
     /**
-     * decodes the byte array
+     * decodes a file
+     * @param path the file that needs to be read and uncoded
      * @return the decoded byte array
      * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
      * @throws IOException because of the nature of writing to file has to do a throw statement
      */
-    protected byte[] returnImage() throws FileNotFoundException, IOException {
+    protected byte[] returnUncoded(String path) throws FileNotFoundException, IOException {
         //gets the file it needs to access
-        this.imageData = new File("LOCKED\\Password\\rawImage.txt");
+        this.imageData = new File(path);
         //scans in the file into a string
         Scanner s = new Scanner(this.imageData);
+        s.nextLine();
         String data = "";
         //scans though all of lines
         while(s.hasNext()){
