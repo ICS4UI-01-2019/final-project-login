@@ -15,8 +15,8 @@ public class KeyFrame {
     private int redY = 0;
     private int greenX = 0;
     private int greenY = 0;
-    private int orangeX = 0;
-    private int orangeY = 0;
+    private int purpleX = 0;
+    private int purpleY = 0;
     private int yellowX = 0;
     private int yellowY = 0;
     private int blueX = 0;
@@ -27,7 +27,7 @@ public class KeyFrame {
     
     //visible colours
     private boolean red = false;
-    private boolean orange = false;
+    private boolean purple = false;
     private boolean yellow = false;
     private boolean blue = false;
     private boolean green = false;
@@ -65,11 +65,11 @@ public class KeyFrame {
     }
     
     /**
-     * Whether or not the keyframe contains orange(ish) pixels
-     * @return whether or not the keyframe contains orange(ish) pixels
+     * Whether or not the keyframe contains purple(ish) pixels
+     * @return whether or not the keyframe contains purple(ish) pixels
      */
-    public boolean getOrange(){
-        return this.orange;
+    public boolean getPurple(){
+        return this.purple;
     }
     
     /**
@@ -105,19 +105,19 @@ public class KeyFrame {
     }
     
     /**
-     * Retrieves the average 'x' position of all orange pixels
-     * @return the average 'x' position of all orange pixels
+     * Retrieves the average 'x' position of all purple pixels
+     * @return the average 'x' position of all purple pixels
      */
-    public int getOrangeX(){
-        return this.orangeX;
+    public int getPurpleX(){
+        return this.purpleX;
     }
     
     /**
-     * Retrieves the average 'y' position of all orange pixels
-     * @return the average 'y' position of all orange pixels
+     * Retrieves the average 'y' position of all purple pixels
+     * @return the average 'y' position of all purple pixels
      */
-    public int getOrangeY(){
-        return this.orangeY;
+    public int getPurpleY(){
+        return this.purpleY;
     }
     
     /**
@@ -193,19 +193,19 @@ public class KeyFrame {
     }
     
     /**
-     * Sets the average 'x' position of all orange pixels
+     * Sets the average 'x' position of all purple pixels
      * @param value the desired value to be set to
      */
-    public void setOrangeX(int value){
-        this.orangeX = value;
+    public void setPurpleX(int value){
+        this.purpleX = value;
     }
     
     /**
-     * Sets the average 'y' position of all orange pixels
+     * Sets the average 'y' position of all purple pixels
      * @param value the desired value to be set to
      */
-    public void setOrangeY(int value){
-        this.orangeY = value;
+    public void setPurpleY(int value){
+        this.purpleY = value;
     }
     
     /**
@@ -281,10 +281,10 @@ public class KeyFrame {
     }
     
     /**
-     * Sets whether or not their are visible orange pixels in the keyframe
-     * @param visible whether or not their are visible orange pixels in the keyframe
+     * Sets whether or not their are visible purple pixels in the keyframe
+     * @param visible whether or not their are visible purple pixels in the keyframe
      */
-    public void setOrange(boolean visible){
-        this.orange = visible;
+    public void setPurple(boolean visible){
+        this.purple = visible;
     }
 }

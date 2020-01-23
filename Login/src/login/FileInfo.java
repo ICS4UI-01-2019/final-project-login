@@ -80,9 +80,9 @@ public class FileInfo {
                 keys[index].setYellowY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
                 keys[index].setYellow(true);
             } else if (i % 5 == 0) {
-                keys[index - 1].setOrangeX(Integer.parseInt(line.substring(1, line.indexOf(","))));
-                keys[index - 1].setOrangeY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
-                keys[index - 1].setOrange(true);
+                keys[index - 1].setPurpleX(Integer.parseInt(line.substring(1, line.indexOf(","))));
+                keys[index - 1].setPurpleY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
+                keys[index - 1].setPurple(true);
             }
 
             //check if a new keyframe needs to be made

@@ -10,16 +10,12 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -56,9 +52,9 @@ public class ProcessImage {
         int redY = 0;
         int redCount = 0;
 
-        int orangeX = 0;
-        int orangeY = 0;
-        int orangeCount = 0;
+        int purpleX = 0;
+        int purpleY = 0;
+        int purpleCount = 0;
 
         int yellowX = 0;
         int yellowY = 0;
@@ -86,12 +82,12 @@ public class ProcessImage {
                     redCount++;
                 }
 
-                //check if the colour of the pixel is orange(ish)
-                if (colour.getRed() >= 200 && colour.getRed() <= 255 && colour.getGreen() >= 100 && colour.getGreen() <= 200 && colour.getBlue() >= 0 && colour.getBlue() <= 80) {
-                    //if it's classified as orange(ish)
-                    orangeX += j;
-                    orangeY += i;
-                    orangeCount++;
+                //check if the colour of the pixel is purple(ish)
+                if (colour.getRed() >= 74 && colour.getRed() <= 112 && colour.getGreen() >= 59 && colour.getGreen() <= 88 && colour.getBlue() >= 14 && colour.getBlue() <= 88) {
+                    //if it's classified as purple(ish)
+                    purpleX += j;
+                    purpleY += i;
+                    purpleCount++;
                 }
 
                 //check if the colour of the pixel is yellow(ish)
@@ -133,9 +129,9 @@ public class ProcessImage {
             yellowY /= yellowCount;
         }
 
-        if (orangeCount > 0) {
-            orangeX /= orangeCount;
-            orangeY /= orangeCount;
+        if (purpleCount > 0) {
+            purpleX /= purpleCount;
+            purpleY /= purpleCount;
         }
 
         if (greenCount > 0) {
@@ -149,7 +145,7 @@ public class ProcessImage {
         }
 
         //format the average points
-        avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + orangeX + "," + orangeY + "]\n";
+        avPoints = "[" + blueX + "," + blueY + "]\n" + "[" + redX + "," + redY + "]\n" + "[" + greenX + "," + greenY + "]\n" + "[" + yellowX + "," + yellowY + "]\n" + "[" + purpleX + "," + purpleY + "]\n";
 
         return avPoints;
     }
@@ -179,7 +175,10 @@ public class ProcessImage {
                         if (!(colour.getRed() >= 192 && colour.getRed() <= 255 && colour.getGreen() >= 169 && colour.getGreen() <= 242 && colour.getBlue() >= 67 && colour.getBlue() <= 94)) {
                             //light blue
                             if (!(colour.getRed() >= 61 && colour.getRed() <= 140 && colour.getGreen() >= 122 && colour.getGreen() <= 202 && colour.getBlue() >= 123 && colour.getBlue() <= 191)) {
-                                img.setRGB(j, i, Color.black.getRGB());
+                                //purple
+//                                if (!(colour.getRed() >= 74 && colour.getRed() <= 112 && colour.getGreen() >= 59 && colour.getGreen() <= 88 && colour.getBlue() >= 14 && colour.getBlue() <= 88)) {
+                                    img.setRGB(j, i, Color.black.getRGB());
+//                                }
                             }
                         }
                     }
@@ -190,13 +189,15 @@ public class ProcessImage {
         //return the image
         return img;
     }
+
     /**
      * Encodes a provided byte array
+     *
      * @param needEncode the data needed to be encrypted
      * @param finalPath the path to the file that we write to
      */
     protected void rawData(byte[] needEncode, String finalPath) {
-            try {
+        try {
             //initializing the file that will be wrote to
             this.imageData = new File(finalPath);
             //initializes the writer that writes to the file provided
@@ -220,12 +221,16 @@ public class ProcessImage {
         } catch (IOException e) {
         }
     }
+
     /**
      * decodes a file
+     *
      * @param path the file that needs to be read and uncoded
      * @return the decoded byte array
-     * @throws FileNotFoundException because of the nature of writing to file has to do a throw statement
-     * @throws IOException because of the nature of writing to file has to do a throw statement
+     * @throws FileNotFoundException because of the nature of writing to file
+     * has to do a throw statement
+     * @throws IOException because of the nature of writing to file has to do a
+     * throw statement
      */
     protected byte[] returnUncoded(String path) throws FileNotFoundException, IOException {
         //gets the file it needs to access
@@ -235,7 +240,7 @@ public class ProcessImage {
         s.nextLine();
         String data = "";
         //scans though all of lines
-        while(s.hasNext()){
+        while (s.hasNext()) {
             data += s.nextLine();
         }
         //Decodes the data and returns it

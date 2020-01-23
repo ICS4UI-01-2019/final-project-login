@@ -83,7 +83,6 @@ public class Gesture extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(fileCount);
     }
 
     /**
@@ -347,7 +346,6 @@ public class Gesture extends javax.swing.JFrame {
                                     BufferedImage[] guess = fInfo.buffLoad("LOCKED\\Guess");
                                     fInfo.updateFile("LOCKED\\Guess\\Config.txt", guess);
                                     KeyFrame[] key1 = fInfo.readFile("LOCKED\\Guess\\Config.txt");
-                                    System.out.println("made it");
                                     //get the password information and format to an array of keyframes
                                     BufferedImage[] pass = fInfo.buffLoad("LOCKED\\Password");
                                     fInfo.updateFile("LOCKED\\Password\\Config.txt", pass);
