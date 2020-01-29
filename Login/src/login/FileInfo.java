@@ -5,7 +5,6 @@
  */
 package login;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,7 +29,6 @@ public class FileInfo {
 
     /**
      * Reads in all of the data of a gesture file(and formats it)
-     *
      * @param path the path of to the gesture data file
      * @return an array of KeyFrames with individual data
      * @throws IOException (File Exception)
@@ -62,7 +60,7 @@ public class FileInfo {
 
             //read in a line
             String line = buffRead.readLine();
-            //depending on the line read, set a colours average x and y point
+            //depending on the line read, set a colour's average x and y point
             if ((i % 5) == 1) {
                 keys[index].setBlueX(Integer.parseInt(line.substring(1, line.indexOf(","))));
                 keys[index].setBlueY(Integer.parseInt(line.substring(line.indexOf(",") + 1, line.length() - 1)));
@@ -85,7 +83,7 @@ public class FileInfo {
                 keys[index - 1].setPurple(true);
             }
 
-            //check if a new keyframe needs to be made
+            //check if a new keyframe needs to be initialized
             if (i % 5 == 0 && i < lines - 1) {
                 keys[index] = new KeyFrame();
             }
@@ -97,7 +95,6 @@ public class FileInfo {
 
     /**
      * Update a gesture's data file using an array of images
-     *
      * @param path to the file being updated
      * @param buffImg the array of images used to update the file
      * @throws IOException (file/image exception)
@@ -105,6 +102,7 @@ public class FileInfo {
     public void updateFile(String path, BufferedImage[] buffImg) throws IOException {
         //get the text file and initialize the file writers
         File file = new File(path);
+        //set the fileWriter to rewrite the entire file
         FileWriter write = new FileWriter(file, false);
         BufferedWriter buffWrite = new BufferedWriter(write);
 
@@ -123,9 +121,10 @@ public class FileInfo {
         buffWrite.write(data);
         buffWrite.flush();
     }
+    
     /**
      * creates an array of images inside a given file
-     * @param path the file that will be edited
+     * @param path the directory that will be loaded
      * @return the array of images
      * @throws IOException throws an exception if file reading goes wrong
      */
@@ -133,14 +132,15 @@ public class FileInfo {
         long count = 0;
         //gets the series of files within a folder
         try (Stream<Path> files = Files.list(Paths.get(path))) {
-            //gets the amount of files in a usuable form for the loop
-            count = files.count() - 1;
+            //gets the amount of files (minus the config file)
+            count = files.count() - 2;
         } catch (Exception e) {
             e.printStackTrace();
         }
         //initializing the array of images
-        BufferedImage[] buff = new BufferedImage[(int) count - 1];
-        //puts all of the imagesw within the folder into the array of images
+        BufferedImage[] buff = new BufferedImage[(int) count];
+        //converts the encoded images to buffered images (using Base64)
+        //stores the decoded images in the array
         for (int i = 1; i < count; i++) {
             BufferedImage img = ImageIO.read(new ByteArrayInputStream(proc.returnUncoded(path + "\\rawImage" + i + ".txt")));
             buff[i - 1] = (BufferedImage) img;

@@ -30,7 +30,6 @@ import org.opencv.videoio.VideoCapture;
  * @author Purew
  */
 public class Gesture extends javax.swing.JFrame {
-
     //create a thread to run in the background
     //Daemon Thread was used so this process ran in the background 
     private DaemonThread myThread = null;
@@ -42,26 +41,35 @@ public class Gesture extends javax.swing.JFrame {
     private VideoCapture webSource = null;
     //variable to hold each frame (opencv uses something called a 'mat')
     private Mat frame = new Mat();
-    //the memory (data) of each frame
+    //the memory (data in bytes) of each frame
     private MatOfByte mem = new MatOfByte();
     //whether or not the window will be used to setup a gesture or input one
     private boolean mode;
     //number of files in the password folder (minus config file)
     long fileCount;
-    //instance of file info
+    //instance of fileInfo
     FileInfo fInfo = new FileInfo();
+    //instance of processImage
     ProcessImage proc = new ProcessImage();
 
     /**
      * Creates new form Window
-     *
-     * @param mode mode setting (true is inputting a gesture and false is
+     * @param mode setting (true is inputting a gesture and false is
      * setting up a gesture)
      */
     public Gesture(boolean mode) {
+        //set the mode
         this.mode = mode;
         initComponents();
-
+       
+        //get the number of keyframes in the password folder
+        try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
+            fileCount = files.count() - 2;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        //if the mode is set to inputting a gesture
         if (this.mode) {
             //initialize the camera to the computer's defaut device
             this.webSource = new VideoCapture(0);
@@ -75,13 +83,12 @@ public class Gesture extends javax.swing.JFrame {
             //disable the buttons
             Stop.setEnabled(false);
             Start.setEnabled(false);
-        }
-
-        //get the number of keyframes in the password folder
-        try (Stream<Path> files = Files.list(Paths.get("LOCKED\\Password"))) {
-            fileCount = files.count() - 2;
-        } catch (Exception e) {
-            e.printStackTrace();
+            
+            //if there isn't a password set, tell the user and end the program
+            if(fileCount < 0){
+                System.out.println("No Password Was Set!");
+                System.exit(-1);
+            }
         }
     }
 
@@ -163,7 +170,7 @@ public class Gesture extends javax.swing.JFrame {
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
         //initialize the camera to the computer's defaut device
         this.webSource = new VideoCapture(0);
-        //intitalize the daemon thread and cast it to a thread
+        //intitalize the daemon thread and thread
         this.myThread = new DaemonThread();
         Thread t = new Thread(myThread);
         //start the thread
@@ -192,7 +199,7 @@ public class Gesture extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //reads through all files through for loop
+        //reads through all files
         for (int i = 0; i < fileCount; i++) {
             try {
                 //accesses the specific image
@@ -272,10 +279,10 @@ public class Gesture extends javax.swing.JFrame {
             synchronized (this) {
                 //loop while the thread is 'active'
                 while (this.runnable) {
-                    //if the video capture device has a frame to grab
+                    //if the video capture device has a frame to grab, grab it!
                     if (webSource.grab()) {
                         try {
-                            //send the video capture frame's data to the variable 'frame'
+                            //send the video capture frame's data to the variable 'frame' (which is a Mat)
                             webSource.retrieve(frame);
                             //seperate the data in 'frame' into it's bytes (into a .bmp format)
                             Imgcodecs.imencode(".bmp", frame, mem);
@@ -291,12 +298,12 @@ public class Gesture extends javax.swing.JFrame {
                                 } else {
                                     Imgcodecs.imwrite("LOCKED\\Password\\KeyFrame_" + loops + ".jpg", frame);
                                 }
+                                //tell the user that a frame was saved
                                 System.out.println("Frame_" + loops + " SAVED!");
                             }
 
                             //turn the image into a buffered image
                             BufferedImage buff = (BufferedImage) im;
-//                            buff = proc.BlackImg(buff);
                             //get the graphics of the JLabel in the gesture window
                             Graphics g = video.getGraphics();
                             //draw the buffered image to the JLabel (video)

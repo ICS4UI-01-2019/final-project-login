@@ -22,9 +22,6 @@ public class KeyFrame {
     private int blueX = 0;
     private int blueY = 0;
     
-    //number of colours visible in the frame
-    private int numfOfCol;
-    
     //visible colours
     private boolean red = false;
     private boolean purple = false;
@@ -151,15 +148,7 @@ public class KeyFrame {
     public int getYellowY(){
         return this.yellowY;
     }
-    
-    /**
-     * Return the number of visible (necessary) colours in the key frame
-     * @return the number of visible colours
-     */
-    public int getNumCols(){
-        return this.numfOfCol;
-    }
-    
+
     /**
      * Sets the average 'x' position of all red pixels
      * @param value the desired value to be set to
@@ -238,14 +227,6 @@ public class KeyFrame {
      */
     public void setYellowY(int value){
         this.blueX = value;
-    }
-    
-    /**
-     * Set the number of visible (necessary) colours in the keyframe
-     * @param value the number of visible colours
-     */
-    public void setNumCols(int value){
-        this.numfOfCol = value;
     }
     
     /**

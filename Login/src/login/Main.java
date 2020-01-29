@@ -23,7 +23,6 @@ public class Main {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    ProcessImage proc = new ProcessImage();
     static Gesture g;
 
     public static void main(String[] args) throws IOException {
